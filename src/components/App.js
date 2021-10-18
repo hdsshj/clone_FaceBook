@@ -4,7 +4,6 @@ import { Switch, Route } from 'react-router-dom';
 import Header from './Header/Header';
 import Sign from '../pages/Sign';
 import PostList from '../pages/PostList';
-import { style } from '../../../rewind-front/node_modules/@mui/system';
 
 function App() {
   return (
