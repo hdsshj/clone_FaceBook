@@ -22,6 +22,7 @@ const style = {
   outline: 0,
 };
 
+
 const Signup = ({ show, onHide }) => {
   return (
     <Grid>
@@ -53,6 +54,6 @@ const Signup = ({ show, onHide }) => {
       </Modal>
     </Grid>
   );
-};
+}
 
 export default Signup;
