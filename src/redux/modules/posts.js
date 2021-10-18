@@ -1,5 +1,5 @@
 import { produce } from 'immer';
-
+import axiosinstance from '../../api/axiosinstance';
 //posts
 const LOAD_POST_LIST = 'posts/LOAD_POST_LIST';
 const LOAD_CURRENT_POST = 'posts/LOAD_CURRENT_POST';
@@ -14,9 +14,9 @@ const REMOVE_COMMENT = 'posts/REMOVE_COMMENT';
 
 //action creater
 
-const loadPosts = (postList, totalElements) => ({
+const loadPosts = (postList) => ({
   type: LOAD_POST_LIST,
-  payload: { postList, totalElements },
+  payload: { postList },
 });
 
 const loadCurrentPost = (postId, data) => ({
@@ -39,7 +39,7 @@ const deletePost = (postId) => ({
   payload: postId,
 });
 
-const addCommentToPost = (addedComment) => ({
+export const addCommentToPost = (addedComment) => ({
   type: ADD_COMMENT,
   payload: addedComment,
 });
@@ -86,47 +86,81 @@ const initialState = {
   current: {},
 };
 
+// const baseURL = process.env.REACT_APP_LOCAL_SERVER_URI;
+
+export const loadPostsToAxios = () => async (dispatch) => {
+  console.log('찍');
+  try {
+    const res = await axiosinstance.GET();
+    console.log('알이에스', res.data);
+
+    // const {
+    //   data: {
+    //     posts: { content, totalElements },
+    //   },
+    // } = res;
+    dispatch(loadPosts(res.data));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// export const addCommentToAxios = (postId, comment) => async (dispatch) => {
+//   let addedComment;
+
+//   try {
+//     const { data } = await TZ.POST('/comment', { postId, comment });
+//     addedComment = data;
+//   } catch (error) {
+//     console.error(error);
+//   }
+//   dispatch(addCommentToPost(addedComment));
+// };
+
 export default function postsReducer(state = initialState, action) {
   return produce(state, (draft) => {
     switch (action.type) {
       case LOAD_POST_LIST: {
-        console.log('LOAD_POST_LIST')
-        console.log(action.payload)
+        console.log('LOAD_POST_LIST');
+        console.log(action.payload.postList);
+        draft.postList = action.payload.postList;
+        console.log('승', draft.postList);
         break;
       }
       case LOAD_CURRENT_POST: {
-        console.log('LOAD_CURRENT_POST')
-        console.log(action.payload)
+        console.log('LOAD_CURRENT_POST');
+        console.log(action.payload);
         break;
       }
       case CREATE: {
-        console.log('CREATE')
-        console.log(action.payload)
+        console.log('CREATE');
+        console.log(action.payload);
         break;
       }
       case UPDATE: {
-        console.log('UPDATE')
-        console.log(action.payload)
+        console.log('UPDATE');
+        console.log(action.payload);
         break;
       }
       case DELETE: {
-        console.log('DELETE')
-        console.log(action.payload)
+        console.log('DELETE');
+        console.log(action.payload);
         break;
       }
       case ADD_COMMENT: {
-        console.log('ADD_COMMENT')
-        console.log(action.payload)
+        console.log('액션커런트', draft.postList);
+        draft.postList.unshift(action.payload);
+        console.log('ADD_COMMENT', action.payload);
         break;
       }
       case MODIFY_COMMENT: {
-        console.log('MODIFY_COMMENT')
-        console.log(action.payload)
+        console.log('MODIFY_COMMENT');
+        console.log(action.payload);
         break;
       }
       case REMOVE_COMMENT: {
-        console.log('REMOVE_COMMENT')
-        console.log(action.payload)
+        console.log('REMOVE_COMMENT');
+        console.log(action.payload);
         break;
       }
       default:

@@ -1,17 +1,17 @@
 import axios from 'axios';
 
-const baseURL = process.env.REACT_APP_REMOTE_SERVER_URI;
+const baseURL = process.env.REACT_APP_LOCAL_SERVER_URI;
 
 const instance = axios.create({
   // 기본적으로 우리가 바라볼 서버의 주소
-  baseURL: {baseURL},
+  baseURL: baseURL,
   headers: {
     'content-type': 'application/json;charset=UTF-8',
     accept: 'application/json',
   },
 });
 
-export const apis = {
+export default {
   // 게시물 불러오기
   GET: () => instance.get('/posts'),
   // 게시물 작성하기
