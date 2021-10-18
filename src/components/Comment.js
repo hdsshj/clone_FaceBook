@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 
+
 const Comment = () => {
   const comment_data = useSelector((state) => state.posts.postList);
   console.log('스테이트', comment_data);

@@ -1,7 +1,7 @@
 import React from 'react';
+import {Grid} from '../elements/index'
 
 import PostCard from '../elements/PostCard';
-import Grid from '../elements/Grid';
 
 import styled from 'styled-components';
 
@@ -58,9 +58,9 @@ const PostUdButton = styled.div`
 const PostContent = styled.div``;
 
 const PostImage = styled.div`
-  background-image: url("https://s3.ap-northeast-2.amazonaws.com/elasticbeanstalk-ap-northeast-2-176213403491/media/magazine_img/magazine_372/c89e5703-03ee-4dcb-9f4e-68cf0a1950f3.jpg")
-  background-size: cover;
-  background-position: center;
+  background-image: url("https://s3.ap-northeast-2.amazonaws.com/elasticbeanstalk-ap-northeast-2-176213403491/media/magazine_img/magazine_372/c89e5703-03ee-4dcb-9f4e-68cf0a1950f3.jpg");
+  background-size : cover;
+  background-position : center;
 `;
 
 export default Post;
