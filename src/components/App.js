@@ -4,10 +4,12 @@ import { Switch, Route } from 'react-router-dom';
 import Header from './Header/Header';
 import Sign from '../pages/Sign';
 import PostList from '../pages/PostList';
+import { style } from '../../../rewind-front/node_modules/@mui/system';
 
 function App() {
   return (
     <>
+      <div style={{ backgroundColor: '#1877f2', height : '100vh' }}>
       <Switch>
         <Route exact path="/sign">
           <Sign />
@@ -20,7 +22,8 @@ function App() {
             </Route>
           </Switch>
         </>
-      </Switch>
+        </Switch>
+        </div>
     </>
   );
 }
