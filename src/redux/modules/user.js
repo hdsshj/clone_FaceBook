@@ -18,7 +18,7 @@ const authorize = (email, nickname) => ({
 
 const initialState = {
   email: '',
-  nickname: '',
+  username: '',
   isAuthorized: false,
 };
 
