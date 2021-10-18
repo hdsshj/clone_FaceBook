@@ -20,10 +20,9 @@ const style = {
   boxShadow: 24,
   p: 4,
   outline: 0,
- 
 };
 
-const Signup = ({show, onHide}) => {
+function Signup({ show, onHide }) {
   return (
     <Grid>
       <Modal
@@ -34,13 +33,13 @@ const Signup = ({show, onHide}) => {
       >
         <Box sx={style}>
           <Grid>
-          <Typography id="modal-modal-title" fontSize='32px' fontWeight='bold' component="h2">
-            가입하기
+            <Typography id="modal-modal-title" fontSize='32px' fontWeight='bold' component="h2">
+              가입하기
             </Typography>
             <Typography id="modal-modal-title" fontSize='15px' component="h2">
-            빠르고 쉽습니다.
+              빠르고 쉽습니다.
             </Typography>
-            <hr width = '100%'/>
+            <hr width='100%' />
           </Grid>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
@@ -49,6 +48,6 @@ const Signup = ({show, onHide}) => {
       </Modal>
     </Grid>
   );
-};
+}
 
 export default Signup;

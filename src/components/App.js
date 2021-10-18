@@ -1,4 +1,5 @@
 import React from 'react';
+import "./Style/App.css";
 import { Switch, Route } from 'react-router-dom';
 
 import Header from './Header/Header';
@@ -8,7 +9,7 @@ import PostList from '../pages/PostList';
 function App() {
   return (
     <>
-      <div style={{ backgroundColor: '#1877f2', height : '100vh' }}>
+      <div style={{ height : '100vh' }}>
       <Switch>
         <Route exact path="/sign">
           <Sign />
