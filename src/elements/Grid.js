@@ -1,25 +1,68 @@
 import React from 'react';
-
 import styled from 'styled-components';
 
-const Grid = ({ is_flex, padding, space_between, relative, children }) => {
-  const styles = {is_flex, padding, space_between, relative};
-  return <GridBox{...styles}>{children}</GridBox>;
+
+const Grid = (props) => {
+  const {
+    is_flex,
+    width,
+    padding,
+    margin,
+    bg,
+    children,
+    center,
+    maxheight,
+    _onClick,
+    height,
+  } = props;
+
+  const styles = {
+    is_flex,
+    width,
+    margin,
+    padding,
+    bg,
+    center,
+    maxheight,
+    height,
+  };
+
+  return (
+    <>
+      <GridBox {...styles} onClick={_onClick}>
+        {children}
+      </GridBox>
+    </>
+  );
 };
 
 Grid.defaultProps = {
-  is_flex: false,
-  padding: false,
-  space_between: false,
-  relative: false,
   children: null,
+  is_flex: false,
+  width: '100%',
+  padding: false,
+  margin: false,
+  height : null,
+  bg: false,
+  center: false,
+  maxheight: false,
+  _onClick: () => {},
 };
 
 const GridBox = styled.div`
-  ${(props) => (props.padding ? `padding: ${props.padding};` : '')};
-  ${(props) => (props.is_flex ? `display: flex; align-items: center;` : '')};
-  ${(props) => (props.space_between ? `justify-content:space-between`: "")};
-  ${(props) => (props.relative ? `position: relative;` : "")};
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
+  box-sizing: border-box;
+  ${(props) => (props.padding ? `padding : ${props.padding};` : '')}
+  ${(props) => (props.margin ? `margin : ${props.margin};` : '')}
+  ${(props) => (props.bg ? `background-color : ${props.bg};` : '')}
+  
+  ${(props) =>
+    props.is_flex
+      ? `display: flex; align-items: center; justify-content: space-between;`
+      : ''};
+  ${(props) => (props.center ? 'text-align : center;' : '')};
+  ${(props) => (props.maxheight ? `max-height : ${props.maxheight};` : '')};
 `;
 
 export default Grid;
