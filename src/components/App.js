@@ -5,6 +5,7 @@ import { Switch, Route } from 'react-router-dom';
 import Header from './Header/Header';
 import Sign from '../pages/Sign';
 import PostList from '../pages/PostList';
+import CommentList from './CommentList';
 
 function App() {
   return (
@@ -23,7 +24,8 @@ function App() {
           </Switch>
         </>
         </Switch>
-        </div>
+        <CommentList></CommentList>
+      </div>
     </>
   );
 }
