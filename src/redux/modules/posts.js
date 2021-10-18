@@ -105,17 +105,21 @@ export const loadPostsToAxios = () => async (dispatch) => {
   }
 };
 
-// export const addCommentToAxios = (postId, comment) => async (dispatch) => {
-//   let addedComment;
+// export const addCommentToAxios =
+//   ( comment) => async (dispatch) => {
+//     let addedComment;
 
-//   try {
-//     const { data } = await TZ.POST('/comment', { postId, comment });
-//     addedComment = data;
-//   } catch (error) {
-//     console.error(error);
-//   }
-//   dispatch(addCommentToPost(addedComment));
-// };
+//     try {
+//       const { data } = await axiosinstance.POST('/comment', {
+//         comment
+//       });
+//       addedComment = data;
+//       console.log('데이터', data);
+//     } catch (error) {
+//       console.error(error);
+//     }
+//     dispatch(addCommentToPost(addedComment));
+//   };
 
 export default function postsReducer(state = initialState, action) {
   return produce(state, (draft) => {

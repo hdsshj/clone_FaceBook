@@ -5,15 +5,13 @@ import { useSelector } from 'react-redux';
 
 const Comment = () => {
   const comment_data = useSelector((state) => state.posts.postList);
-  console.log('스테이트', comment_data);
+  // console.log('스테이트', comment_data);
   return (
     <React.Fragment>
       {comment_data.map((a) => {
         return (
           <Container>
-            <UserImg>
-              <img src={a.profile} />
-            </UserImg>
+            <UserImg bg={a.profile} />
             <Cmt>
               <UserName>{a.userName}</UserName>
               {a.content}
@@ -36,6 +34,8 @@ const UserImg = styled.div`
   height: 32px;
   border-radius: 25px;
   background-color: wheat;
+  background-size: cover;
+  background-image: url(${(props) => props.bg});
 `;
 const Cmt = styled.div`
   width: 0 auto;
