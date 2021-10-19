@@ -23,7 +23,7 @@ const Login = () => {
   };
 
   const login = () => {
-    console.log(email, password);
+    console.log({email, pw:password});
   };
 
   return (
