@@ -11,7 +11,7 @@ const CommentForm = (props) => {
     if (e.key === 'Enter') {
       console.log('코멘트', comment);
       // postid도 넘겨야함 -- 후에 추가
-      dispatch(addCommentToAxios(comment));
+      dispatch(addCommentToPost(comment));
       setComment('');
     }
   };

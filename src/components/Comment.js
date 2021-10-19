@@ -2,10 +2,20 @@ import React from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import CommentForm from './CommentForm';
-import { removeCommentToPost } from '../redux/modules/posts';
-const Comment = () => {
+import {
+  removeCommentToAxios,
+  removeCommentToPost,
+  loadPostsToAxios,
+} from '../redux/modules/posts';
+const Comment = (props) => {
   const dispatch = useDispatch();
   const comment_data = useSelector((state) => state.posts.postList);
+  console.log('게시글데이터', comment_data);
+  // const cmtId = comment_data.map((a) => {
+  //   return a.id;
+  // });
+  // console.log('게시글의 아이디', cmtId);
+
   const [TF, setTF] = React.useState(false);
   const editPost = () => {
     setTF(!TF);
@@ -13,14 +23,28 @@ const Comment = () => {
 
   //삭제
   const deletePost = (e) => {
-    dispatch(removeCommentToPost(e));
+    dispatch(removeCommentToAxios(e));
   };
   console.log('스테이트', comment_data);
+
+  const commentLoad = (e) => {
+    console.log('이이', e);
+    dispatch(loadPostsToAxios());
+  };
   return (
     <React.Fragment>
-      {comment_data.map((a) => {
+      {/* {comment_data.map((a) => {
         return (
           <>
+            <button
+              style={{ display: 'block', margin: '0px auto' }}
+              onClick={() => {
+                commentLoad();
+              }}
+            >
+              아이디보기
+              {a.id}
+            </button>
             {(comment_data.find((c) => c.id === a.id) ? TF : false) ? (
               <>
                 <CommentForm />
@@ -56,7 +80,7 @@ const Comment = () => {
             )}
           </>
         );
-      })}
+      })} */}
     </React.Fragment>
   );
 };

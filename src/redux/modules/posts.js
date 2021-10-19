@@ -1,4 +1,3 @@
-import { Air } from '@mui/icons-material';
 import { produce } from 'immer';
 import axiosinstance from '../../api/axiosinstance';
 //posts
@@ -99,6 +98,16 @@ export const loadPostsToAxios = () => async (dispatch) => {
     //   },
     // } = res;
     dispatch(loadPosts(res.data));
+    console.log('zzz', res.data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const loadCurrentPostToAxios = (postId) => async (dispatch) => {
+  try {
+    const { data } = await axiosinstance.GET(`/posts/5`);
+    dispatch(loadCurrentPost(Number(postId), data));
   } catch (error) {
     console.error(error);
   }
@@ -119,6 +128,17 @@ export const addCommentToAxios = (comment) => async (dispatch) => {
   dispatch(addCommentToPost(addedComment));
 };
 
+export const removeCommentToAxios = (commentId) => async (dispatch) => {
+  try {
+    const { data } = await axiosinstance.DELETE(commentId);
+    if (data.result === 'success') {
+      dispatch(removeCommentToPost(commentId));
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export default function postsReducer(state = initialState, action) {
   return produce(state, (draft) => {
     switch (action.type) {
@@ -127,9 +147,10 @@ export default function postsReducer(state = initialState, action) {
         break;
       }
       case LOAD_CURRENT_POST: {
-        console.log('LOAD_CURRENT_POST');
-        console.log(action.payload);
-        break;
+        const cmtList = action.payload.data;
+        const idx = cmtList.findIndex((d) => d.id === action.payload.postId);
+        console.log('ㅁㅁ', cmtList[idx]);
+        return { current: cmtList[idx] };
       }
       case CREATE: {
         console.log('CREATE');
@@ -158,6 +179,7 @@ export default function postsReducer(state = initialState, action) {
         break;
       }
       case REMOVE_COMMENT: {
+        //리덕스에서 삭제
         const newComment = draft.postList.filter((a) => {
           return a.id !== action.payload;
         });
