@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { addCommentToAxios, addCommentToPost } from '../redux/modules/posts';
 
-const CommentForm = () => {
+const CommentForm = (props) => {
   const dispatch = useDispatch();
   const [comment, setComment] = React.useState();
   //제출은 엔터키
@@ -11,7 +11,7 @@ const CommentForm = () => {
     if (e.key === 'Enter') {
       console.log('코멘트', comment);
       // postid도 넘겨야함 -- 후에 추가
-      dispatch(addCommentToPost(comment));
+      dispatch(addCommentToAxios(comment));
       setComment('');
     }
   };

@@ -1,3 +1,4 @@
+import { Air } from '@mui/icons-material';
 import { produce } from 'immer';
 import axiosinstance from '../../api/axiosinstance';
 //posts
@@ -49,7 +50,7 @@ const modifyCommentToPost = (commentId, newComment) => ({
   payload: { commentId, newComment },
 });
 
-const removeCommentToPost = (commentId) => ({
+export const removeCommentToPost = (commentId) => ({
   type: REMOVE_COMMENT,
   payload: commentId,
 });
@@ -89,10 +90,8 @@ const initialState = {
 // const baseURL = process.env.REACT_APP_LOCAL_SERVER_URI;
 
 export const loadPostsToAxios = () => async (dispatch) => {
-  console.log('찍');
   try {
     const res = await axiosinstance.GET();
-    console.log('알이에스', res.data);
 
     // const {
     //   data: {
@@ -105,26 +104,26 @@ export const loadPostsToAxios = () => async (dispatch) => {
   }
 };
 
-// export const addCommentToAxios = (postId, comment) => async (dispatch) => {
-//   let addedComment;
+export const addCommentToAxios = (comment) => async (dispatch) => {
+  let addedComment;
 
-//   try {
-//     const { data } = await TZ.POST('/comment', { postId, comment });
-//     addedComment = data;
-//   } catch (error) {
-//     console.error(error);
-//   }
-//   dispatch(addCommentToPost(addedComment));
-// };
+  try {
+    const { data } = await axiosinstance.POST('/comment', {
+      comment,
+    });
+    addedComment = data;
+    console.log('데이터', data);
+  } catch (error) {
+    console.error(error);
+  }
+  dispatch(addCommentToPost(addedComment));
+};
 
 export default function postsReducer(state = initialState, action) {
   return produce(state, (draft) => {
     switch (action.type) {
       case LOAD_POST_LIST: {
-        console.log('LOAD_POST_LIST');
-        console.log(action.payload.postList);
         draft.postList = action.payload.postList;
-        console.log('승', draft.postList);
         break;
       }
       case LOAD_CURRENT_POST: {
@@ -159,9 +158,10 @@ export default function postsReducer(state = initialState, action) {
         break;
       }
       case REMOVE_COMMENT: {
-        console.log('REMOVE_COMMENT');
-        console.log(action.payload);
-        break;
+        const newComment = draft.postList.filter((a) => {
+          return a.id !== action.payload;
+        });
+        return { postList: newComment };
       }
       default:
         break;
