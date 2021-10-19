@@ -7,7 +7,7 @@ import Sign from '../pages/Sign';
 import PostList from '../pages/PostList';
 import CommentList from './CommentList';
 import SideBar from './SideBar';
-import Feed from './Feed';
+
 
 function App() {
   return (
@@ -22,14 +22,13 @@ function App() {
               <Header />
               <div className="app__body">
                 <SideBar />
-                <Feed />
+                <Switch>
+                  <Route exact path="/">
+                    <PostList />
+                  </Route>
+                </Switch>
               </div>
             </div>
-            <Switch>
-              <Route exact path="/">
-                <PostList />
-              </Route>
-            </Switch>
           </>
         </Switch>
       </div>

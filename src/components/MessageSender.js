@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Style/MessageSender.css';
 
 import { Avatar } from '@mui/material';
@@ -7,6 +7,9 @@ import FilterIcon from '@mui/icons-material/Filter';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 
 const MessageSender = () => {
+
+  const [image, setImage] = useState("");
+
   return (
     <div className="messageSender">
       <div className="messageSender__top">
