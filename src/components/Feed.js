@@ -1,14 +1,14 @@
 import React from 'react';
-import './Style/Video.css';
+import './Style/Feed.css';
 import StoryReal from './StoryReal';
 
-const Video = () => {
+const Feed = () => {
   return (
-    <div className="video">
+    <div className="feed">
       <StoryReal />
       {/* MessageSender */}
     </div>
   );
 };
 
-export default Video;
+export default Feed;
