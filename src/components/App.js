@@ -5,9 +5,6 @@ import { Switch, Route } from 'react-router-dom';
 import Header from './Header/Header';
 import Sign from '../pages/Sign';
 import PostList from '../pages/PostList';
-import CommentList from './CommentList';
-import SideBar from './SideBar';
-import Feed from './Feed';
 
 function App() {
   return (
@@ -18,13 +15,7 @@ function App() {
             <Sign />
           </Route>
           <>
-            <div className="app">
-              <Header />
-              <div className="app__body">
-                <SideBar />
-                <Feed />
-              </div>
-            </div>
+            <Header />
             <Switch>
               <Route exact path="/">
                 <PostList />
@@ -32,7 +23,6 @@ function App() {
             </Switch>
           </>
         </Switch>
-        <CommentList></CommentList>
       </div>
     </>
   );
