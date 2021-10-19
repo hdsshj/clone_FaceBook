@@ -7,6 +7,9 @@ import { ExpandMoreOutlined } from '@mui/icons-material';
 const SideBar = () => {
   return (
     <div className="sidebar">
+      <SideBarRow
+      src={"https://img.sbs.co.kr/newimg/news/20190624/201327376_1280.jpg"}
+      title="이민국"/>
       <SideBarRow src={"https://static.xx.fbcdn.net/rsrc.php/v3/y8/r/S0U5ECzYUSu.png"} title="친구 찾기"/>
       <SideBarRow src={"https://static.xx.fbcdn.net/rsrc.php/v3/y5/r/PrjLkDYpYbH.png"} title="그룹"/>
       <SideBarRow src={"https://static.xx.fbcdn.net/rsrc.php/v3/y5/r/duk32h44Y31.png"} title="Watch"/>
