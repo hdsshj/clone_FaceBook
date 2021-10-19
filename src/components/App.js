@@ -6,6 +6,8 @@ import Header from './Header/Header';
 import Sign from '../pages/Sign';
 import PostList from '../pages/PostList';
 import CommentList from './CommentList';
+import SideBar from './SideBar';
+import Video from './Video';
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
         </Route>
         <>
           <Header />
+          <SideBar />
+          <Video />
           <Switch>
             <Route exact path="/">
               <PostList />
