@@ -1,4 +1,5 @@
 import { produce } from 'immer';
+import axios from 'axios';
 
 export const LOGIN = 'user/LOGIN';
 export const LOG_OUT = 'user/LOG_OUT';
@@ -22,6 +23,32 @@ const initialState = {
   isAuthorized: false,
 };
 
+// 미들 웨어
+const baseURL = process.env.REACT_APP_REMOTE_SERVER_URI;
+
+
+export const loginToServer = (email, pw) => async (dispatch) => {
+  try {
+    const res = await axios.post(`${baseURL}/api/login`, { email, pw });
+    const { data } = res;
+
+    if (data.result === 'fail') {
+      return data;
+    }
+    console.log(data)
+    // dispatch(login({ email: data.email, nickname: data.nickname }));
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw new Error(error.message);
+  }
+};
+
+export const signUpToServer = () => async (dispatch) => {
+  
+}
+
 export default function userReducer(state = initialState, action) {
   return produce(state, (draft) => {
     switch (action.type) {
@@ -32,7 +59,7 @@ export default function userReducer(state = initialState, action) {
         break;
       }
       case LOG_OUT: {
-        console.log('AUTHORIZED');
+        console.log('LOG_OUT');
         console.log(action.payload);
         break;
       }
