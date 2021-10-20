@@ -6,13 +6,14 @@ import Header from './Header/Header';
 import Sign from '../pages/Sign';
 import PostList from '../pages/PostList';
 import SideBar from './SideBar';
+import Aside from './Aside';
 
 function App() {
   return (
     <>
       <div style={{ height: '100vh' }}>
         <Switch>
-          <Route exact path="/sign" exact>
+          <Route path="/sign" exact>
             <Sign />
           </Route>
           <>
@@ -20,6 +21,12 @@ function App() {
               <Header />
               <div className="app__body">
                 <SideBar />
+                <Switch>
+                  <Route exact path="/">
+                    <PostList />
+                  </Route>
+                </Switch>
+                <Aside />
               </div>
             </div>
             <Route exact path="/" exact>

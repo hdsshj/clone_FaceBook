@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './Style/MessageSender.css';
 
+import PostWrite from "./PostWrite";
+
 import { Avatar } from '@mui/material';
 import VideoCameraFrontIcon from '@mui/icons-material/VideoCameraFront';
 import FilterIcon from '@mui/icons-material/Filter';
@@ -8,14 +10,21 @@ import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 
 const MessageSender = () => {
 
+  const [modalShow, setModalShow] = React.useState(false);
   const [image, setImage] = useState("");
+
+  const handleModal = () => {
+    setModalShow(true);
+  };
+
 
   return (
     <div className="messageSender">
       <div className="messageSender__top">
         <Avatar />
         <form>
-          <input placeholder="이민국님, 무슨 생각을 하고 계신가요?"/>
+          <input onClick={handleModal} placeholder="이민국님, 무슨 생각을 하고 계신가요?"/>
+          <PostWrite show={modalShow} onHide={() => setModalShow(false)} />
         </form>
       </div>
       <div className="messageSender__bottom">
