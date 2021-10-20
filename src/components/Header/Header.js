@@ -9,7 +9,7 @@ import OndemandVideoOutlinedIcon from '@mui/icons-material/OndemandVideoOutlined
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import { Avatar, IconButton } from '@mui/material';
-import ViewComfyIcon from '@mui/icons-material/ViewComfy';
+import AppsIcon from '@mui/icons-material/Apps';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
@@ -55,7 +55,7 @@ const Header = () => {
         </div>
 
         <IconButton>
-          <ViewComfyIcon />
+          <AppsIcon />
         </IconButton>
         <IconButton>
           <ChatBubbleOutlineIcon />
