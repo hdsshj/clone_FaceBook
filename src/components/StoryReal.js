@@ -1,5 +1,6 @@
 import React from 'react';
 import Story from './Story';
+import "./Style/StoryReal.css";
 
 const StoryReal = () => {
   return (

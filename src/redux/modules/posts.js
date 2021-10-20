@@ -39,7 +39,7 @@ const deletePost = (postId) => ({
   payload: postId,
 });
 
-export const addCommentToPost = (addedComment) => ({
+const addCommentToPost = (addedComment) => ({
   type: ADD_COMMENT,
   payload: addedComment,
 });
@@ -106,7 +106,7 @@ export const loadPostsToAxios = () => async (dispatch) => {
 
 export const loadCurrentPostToAxios = (postId) => async (dispatch) => {
   try {
-    const { data } = await axiosinstance.GET(`/posts/5`);
+    const { data } = await axiosinstance.GET(`/posts/`);
     dispatch(loadCurrentPost(Number(postId), data));
   } catch (error) {
     console.error(error);
@@ -117,7 +117,7 @@ export const addCommentToAxios = (comment) => async (dispatch) => {
   let addedComment;
 
   try {
-    const { data } = await axiosinstance.POST('/comment', {
+    const { data } = await axiosinstance.POST(`/comment`, {
       comment,
     });
     addedComment = data;
@@ -143,13 +143,20 @@ export default function postsReducer(state = initialState, action) {
   return produce(state, (draft) => {
     switch (action.type) {
       case LOAD_POST_LIST: {
-        draft.postList = action.payload.postList;
+        //각 게시글에 있는 댓글리스트
+        const commentList = action.payload.postList.result;
+        const commentInfo = commentList.map((a) => {
+          console.log('게시글의 id', a.postId);
+          return a.comment;
+        });
+        draft.postList = commentInfo;
+        console.log((draft.postList = commentInfo));
+        // console.log('잠깐', draft.postList.push(commentInfo));
         break;
       }
       case LOAD_CURRENT_POST: {
         const cmtList = action.payload.data;
         const idx = cmtList.findIndex((d) => d.id === action.payload.postId);
-        console.log('ㅁㅁ', cmtList[idx]);
         return { current: cmtList[idx] };
       }
       case CREATE: {
