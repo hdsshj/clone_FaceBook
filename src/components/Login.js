@@ -1,6 +1,8 @@
 import React from 'react';
 import { history } from '../redux/configStore';
+import { useDispatch } from 'react-redux';
 
+import { loginToServer } from '../redux/modules/user';
 
 import Signup from './Signup';
 
@@ -8,6 +10,8 @@ const Login = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [modalShow, setModalShow] = React.useState(false);
+
+  const dispatch = useDispatch()
 
   console.log(email);
   const handleChangeEmail = (email) => {
@@ -23,8 +27,11 @@ const Login = () => {
   };
 
   const login = () => {
-    console.log({email, pw:password});
+    console.log({ email, pw: password });
+    dispatch(loginToServer({ email, pw: password }))
   };
+
+
 
   return (
     <React.Fragment>

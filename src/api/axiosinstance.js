@@ -13,7 +13,7 @@ const instance = axios.create({
 
 export default {
   // 게시물 불러오기
-  GET: () => instance.get('/posts'),
+  GET: (postId) => instance.get(`/api/post/${postId}`),
   // 게시물 작성하기
   POST: (contents) => instance.post('/posts', contents),
   // 게시물 수정하기

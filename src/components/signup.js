@@ -35,11 +35,11 @@ const selectBoxOption = {
 
 const Signup = ({ show, onHide }) => {
   // 이름
-  const [lastName, setLastName] = React.useState('')
-  const [firstName, setFirstName] = React.useState('')
+  const [lastName, setLastName] = React.useState('');
+  const [firstName, setFirstName] = React.useState('');
 
-  const userName = lastName + firstName
-  
+  const userName = lastName + firstName;
+
   const handleLastNameChange = (event) => {
     setLastName(event.target.value);
   };
@@ -49,14 +49,14 @@ const Signup = ({ show, onHide }) => {
   };
 
   // 휴대폰 번호 또는 이메일
-  const [email, setEmail] = React.useState('')
+  const [email, setEmail] = React.useState('');
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
-  
+
   // 새 비밀번호
-  const [password, setPassword] = React.useState('')
+  const [password, setPassword] = React.useState('');
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
@@ -75,7 +75,7 @@ const Signup = ({ show, onHide }) => {
   const selectYearBox = [];
   const selectMonthBox = [];
   const selectDayBox = [];
-  const birthday = `${selectYear}-${selectMonth}-${selectDay}`
+  const birthday = `${selectYear}-${selectMonth}-${selectDay}`;
 
   for (let y = year - 70; y <= year + 1; y++) {
     selectYearBox.push({ value: y, label: y });
@@ -108,17 +108,40 @@ const Signup = ({ show, onHide }) => {
     setGender(event.target.value);
   };
 
-  const signUp = () => {
-    console.log({userName, email, birthday,gender ,profile,pw : password})
-  }
-
   // 프로필
-  const [profile, setProfile] = React.useState('')
+  const [profileUrl, setProfileUrl] = React.useState('');
+  const profileRef = React.useRef('');
+  // const [profile, setProfile] = React.useState('')
 
-  const handleProfileChange = (event) => {
-    setProfile(event.target.value);
+  // const handleProfileChange = (event) => {
+  //   // setProfile(event.target.files);
+  //   console.log(profileRef.current.files[0])
+  //   // console.log(profile)
+
+  //   // const fromDat = new FormData();
+  // };
+
+  const readerUrl = () => {
+    if (!profileRef.current.files[0]) {
+      return
+    }
+    const reader = new FileReader();
+    const file = profileRef.current.files[0];
+
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setProfileUrl(reader.result);
+    };
   };
-  
+
+  const signUp = () => {
+    const profile = profileRef.current.files[0];
+
+    const formData = new FormData();
+    formData.append('image', profile);
+
+    console.log({ userName, email, birthday, gender, profile, pw: password });
+  };
 
   return (
     <Grid>
@@ -147,7 +170,7 @@ const Signup = ({ show, onHide }) => {
             <TextField
               sx={{ margin: '10px 6px 5px 0px' }}
               size="small"
-              fullWidth="true"
+              fullWidth={true}
               placeholder="성(姓)"
               variant="outlined"
               value={lastName}
@@ -156,7 +179,7 @@ const Signup = ({ show, onHide }) => {
             <TextField
               sx={{ margin: '10px 0px 5px 6px' }}
               size="small"
-              fullWidth="true"
+              fullWidth={true}
               placeholder="이름(성은 제외)"
               variant="outlined"
               value={firstName}
@@ -167,7 +190,7 @@ const Signup = ({ show, onHide }) => {
             <TextField
               sx={{ margin: '10px 0px 5px 0px' }}
               size="small"
-              fullWidth="true"
+              fullWidth={true}
               placeholder="휴대폰 번호 또는 이메일"
               variant="outlined"
               value={email}
@@ -176,7 +199,7 @@ const Signup = ({ show, onHide }) => {
             <TextField
               sx={{ margin: '10px 0px 5px 0px' }}
               size="small"
-              fullWidth="true"
+              fullWidth={true}
               placeholder="새 비밀번호"
               variant="outlined"
               value={password}
@@ -189,7 +212,7 @@ const Signup = ({ show, onHide }) => {
               sx={{ margin: '10px 5px 5px 0px' }}
               size="small"
               select
-              fullWidth="true"
+              fullWidth={true}
               variant="outlined"
               value={selectYear}
               onChange={handleYearChange}
@@ -204,7 +227,7 @@ const Signup = ({ show, onHide }) => {
               sx={{ margin: '10px 5px 5px 5px' }}
               size="small"
               select
-              fullWidth="true"
+              fullWidth={true}
               variant="outlined"
               value={selectMonth}
               onChange={handleMonthChange}
@@ -219,7 +242,7 @@ const Signup = ({ show, onHide }) => {
               sx={{ margin: '10px 0px 5px 5px' }}
               size="small"
               select
-              fullWidth="true"
+              fullWidth={true}
               variant="outlined"
               value={selectDay}
               onChange={handleDayChange}
@@ -277,7 +300,7 @@ const Signup = ({ show, onHide }) => {
           <TextField
             sx={{ margin: '10px 0px 5px 0px' }}
             size="small"
-            fullWidth="true"
+            fullWidth={true}
             id="outlined-basic"
             placeholder="성별(선택 사항)"
             variant="outlined"
@@ -290,8 +313,10 @@ const Signup = ({ show, onHide }) => {
             </p>
           </Grid>
           <Grid>
-            <input type='file' value={profile} onChange={handleProfileChange}/>
+            <input ref={profileRef} onChange={readerUrl} type="file" />
           </Grid>
+          {/* <ImageCircle style={{ width: '40px', height: '40px', backgroundImage: `url(${profileUrl})`}} /> */}
+          <ImageCircle src={profileUrl ? profileUrl : 'https://scontent-ssn1-1.xx.fbcdn.net/v/t1.30497-1/cp0/p50x50/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-5&_nc_sid=7206a8&_nc_ohc=RSszpkf2LQkAX-abUaK&_nc_ht=scontent-ssn1-1.xx&oh=d682cbc5edf118185fd72f32e130ff6d&oe=6193F7A2'} size='200'/>
           <Grid>
             <GreenBtn onClick={signUp}>가입하기</GreenBtn>
           </Grid>
@@ -304,12 +329,12 @@ const Signup = ({ show, onHide }) => {
 const RadioBox = styled.div`
   border: '1px solid';
   display: 'inline-block';
-  fontsize: 15px;
-  lineheight: 36px;
+  font-size: 15px;
+  line-height: 36px;
   padding: 0px 28px 0px 10px;
   width: 100%;
   color: #1c1e21;
-  boxsizing: border-box;
+  box-sizing: border-box;
 `;
 
 const GreenBtn = styled.button`
@@ -323,6 +348,17 @@ const GreenBtn = styled.button`
   border-radius: 7px;
   width: 50%;
   margin: 20px auto;
+`;
+
+const ImageCircle = styled.div`
+  --size: ${(props) => props.size}px;
+  width: var(--size);
+  height: var(--size);
+  border-radius: var(--size);
+
+  background-image: url('${(props) => props.src}');
+  background-size: cover;
+  margin: auto;
 `;
 
 export default Signup;
