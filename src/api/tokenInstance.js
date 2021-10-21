@@ -15,10 +15,10 @@ const setToken = (config) => {
 instance.interceptors.request.use(setToken);
 
 export default {
-  GET: (endpoint, additionalPath) =>
-    instance.get(`/api${endpoint}${additionalPath ? `/${additionalPath}` : ''}`),
+  GET: () => instance.get(`/api/post`),
   POST: (endpoint, body) => instance.post(`/api${endpoint}`, body),
   UPDATE: (endpoint, urlParam, body) =>
     instance.fatch(`/api${endpoint}/${urlParam}`, body),
-  DELETE: (endpoint, urlParam) => instance.delete(`/api${endpoint}/${urlParam}`),
+  DELETE: (endpoint) => instance.delete(`/api${endpoint}`),
+  PATCH: (endpoint, body) => instance.patch(`/api${endpoint}`, body),
 };

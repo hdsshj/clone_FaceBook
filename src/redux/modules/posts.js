@@ -88,6 +88,8 @@ const initialState = {
   current: {},
 };
 
+const baseURL = process.env.REACT_APP_REMOTE_SERVER_URI;
+
 export const addCommentToAxios = (comment, postId) => async (dispatch) => {
   console.log('우석빌런', comment, postId);
 
@@ -114,18 +116,30 @@ export const loadPostsToAxios = () => async (dispatch) => {
 
 export const loadCurrentPostToAxios = (postId) => async (dispatch) => {
   try {
-    const { data } = await axiosinstance.GET();
+    const { data } = await T.GET();
     dispatch(loadCurrentPost(Number(postId), data));
   } catch (error) {
     console.error(error);
   }
 };
 
+// export const addCommentToAxios = (postId, comment) => async (dispatch) => {
+//   let addedComment;
+
+//   try {
+//     const { data } = await axiosinstance.POST(postId, comment);
+//     addedComment = data;
+//     console.log('데이터', data);
+//   } catch (error) {
+//     console.error(error);
+//   }
+//   dispatch(addCommentToPost(addedComment));
+// };
+
 export const modifyCommentToAxios =
   (commentId, comment) => async (dispatch) => {
-    let payload = { commentId, comment };
     try {
-      const { data } = await axiosinstance.PATCH(commentId, comment);
+      const { data } = await T.PATCH(`/comment/${commentId}`, comment);
       console.log('수정 데이터', data);
       console.log('수정 데이터2', data.comment);
       if (data.result === 'success') {
@@ -139,7 +153,7 @@ export const modifyCommentToAxios =
 export const removeCommentToAxios = (commentId) => async (dispatch) => {
   console.log('삭제아이디', commentId);
   try {
-    const { data } = await axiosinstance.DELETE(commentId);
+    const { data } = await T.DELETE(`/comment/${commentId}`);
     console.log('데이타확인', data);
     if (data.result === 'success') {
       console.log('성공확인', data.result);
