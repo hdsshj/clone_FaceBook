@@ -1,27 +1,47 @@
 import React from 'react';
 import './Style/Post.css';
-
+import { useDispatch } from 'react-redux';
 import { Avatar } from '@mui/material';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import ScreenShareOutlinedIcon from '@mui/icons-material/ScreenShareOutlined';
+import CommentList from './CommentList';
 
-const Post = ({ profile, image, userName, insertDt, content }) => {
+import { loadCurrentPostToAxios } from '../redux/modules/posts';
+
+const Post = (props) => {
+  // console.log('포스트프롭스', props.value);
+  console.log('포포', props);
+  const postInfo = props.value;
+  const postId = props.value.postId;
+  const dispatch = useDispatch();
+  const [visible, setVisible] = React.useState(false);
+  const commentVisible = (e) => {
+    console.log('이이0', e);
+    if (postId === e) {
+      setVisible(!visible);
+    }
+    return;
+  };
+  //포스트 아이디를 보내서 댓글 정보 로드
+  // const commentLoad = (e) => {
+  //   dispatch(loadCurrentPostToAxios(e));
+  // };
   return (
     <div className="post">
       <div className="post__top">
-        <Avatar src={profile} className="post__avatar" />
+        <Avatar /* src={profile} */ className="post__avatar" />
         <div className="post__topInfo">
-          <h3>{userName}</h3>
-          <p>{insertDt}</p>
+          <h3>{postInfo.userNam}</h3>
+          <p>{postInfo.insertDt}</p>
         </div>
       </div>
       <div className="post__bottom">
-        <p>{content}</p>
+        <p>{postInfo.content}</p>
       </div>
 
       <div className="post__image">
-        <img src={image} alt="" />
+        <img src={postInfo.image} alt="" />
       </div>
 
       <div className="post__options">
@@ -32,7 +52,13 @@ const Post = ({ profile, image, userName, insertDt, content }) => {
 
         <div className="post__option">
           <ChatBubbleOutlineOutlinedIcon />
-          <p>댓글 달기</p>
+          <p
+            onClick={() => {
+              commentVisible(postId);
+            }}
+          >
+            댓글 달기
+          </p>
         </div>
 
         <div className="post__option">
@@ -40,6 +66,9 @@ const Post = ({ profile, image, userName, insertDt, content }) => {
           <p>공유하기</p>
         </div>
       </div>
+      {(postId ? visible : false) ? (
+        <CommentList value={postInfo}></CommentList>
+      ) : null}
     </div>
   );
 };

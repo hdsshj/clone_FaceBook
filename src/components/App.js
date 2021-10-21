@@ -29,9 +29,6 @@ function App() {
                 <Aside />
               </div>
             </div>
-            <Route exact path="/" exact>
-              <PostList />
-            </Route>
           </>
         </Switch>
       </div>

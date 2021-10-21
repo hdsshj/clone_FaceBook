@@ -2,36 +2,30 @@ import React, { useEffect } from 'react';
 import CommentForm from './CommentForm';
 import Comment from './Comment';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  loadCurrentPostToAxios,
-  loadPostsToAxios,
-} from '../redux/modules/posts';
+import { useSelector } from 'react-redux';
 
 const CommentList = (props) => {
-  const comment_data = useSelector((state) => state.posts.postList);
-  console.log('커런트', comment_data.result);
-  // const findPostId = comment_data.
-  const dispatch = useDispatch();
-  const commentLoad = () => {
-    dispatch(loadPostsToAxios());
-  };
+  // console.log('프롭스', props.value);
+  // const comment_data = useSelector((state) => state.posts.postList);
+  const comment_data = props.value.comment;
+  console.log('코멘트데이터', comment_data);
 
   return (
     <React.Fragment>
-      <button
-        style={{ display: 'block', margin: '0px auto' }}
-        onClick={commentLoad}
-      >
-        댓글보기
-      </button>
       <Line />
       <Container>
         <h1>가로 750px</h1>
         <ChildContainer>
           <h1> 가로 650px에 패딩 16px</h1>
-          <CommentForm />
-          <Comment />
+          <CommentForm value={props.value} />
+          {comment_data &&
+            comment_data.map((a) => {
+              return (
+                <div>
+                  <Comment id={a.commentId} value={a} />
+                </div>
+              );
+            })}
         </ChildContainer>
       </Container>
     </React.Fragment>

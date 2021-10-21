@@ -1,28 +1,44 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { addCommentToAxios, addCommentToPost } from '../redux/modules/posts';
+import {
+  addCommentToAxios,
+  addCommentToPost,
+  modifyCommentToAxios,
+  modifyCommentToPost,
+} from '../redux/modules/posts';
 
 const CommentForm = (props) => {
+  console.log('티에프', props);
+  // console.log('작성창', props.value);
+  console.log('코멘id', props.value);
+  const commentId = props.value;
+  const postId = props.value.postId;
+  console.log('aka', props.value.postId);
   const dispatch = useDispatch();
   const [comment, setComment] = React.useState();
   //제출은 엔터키
   const enterKey = (e) => {
     if (e.key === 'Enter') {
-      console.log('코멘트', comment);
-      // postid도 넘겨야함 -- 후에 추가
-      dispatch(addCommentToPost(comment));
-      setComment('');
+      if (props.TF) {
+        console.log('수정디스패치');
+        dispatch(modifyCommentToAxios(commentId, { comment: comment }));
+        setComment('');
+        props.TFfunction(!props.TF);
+      } else {
+        console.log('애드');
+        dispatch(addCommentToAxios({ comment: comment }, postId));
+        setComment('');
+      }
     }
   };
-
   return (
     <React.Fragment>
       <Container>
         <UserImg />
         <InputBox
           type="text"
-          value={comment}
+          value={comment || ''}
           onKeyUp={enterKey}
           onChange={(e) => {
             setComment(e.target.value);
