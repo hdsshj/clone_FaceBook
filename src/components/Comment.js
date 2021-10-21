@@ -2,10 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import CommentForm from './CommentForm';
-import { removeCommentToPost } from '../redux/modules/posts';
-const Comment = () => {
+import {
+  removeCommentToAxios,
+  removeCommentToPost,
+} from '../redux/modules/posts';
+const Comment = (props) => {
+  // console.log('props', props);
+  const commentInfo = props.value;
+  // console.log('프롭스밸류', commentInfo.commentId);
   const dispatch = useDispatch();
-  const comment_data = useSelector((state) => state.posts.postList);
+
   const [TF, setTF] = React.useState(false);
   const editPost = () => {
     setTF(!TF);
@@ -13,50 +19,50 @@ const Comment = () => {
 
   //삭제
   const deletePost = (e) => {
-    dispatch(removeCommentToPost(e));
+    dispatch(removeCommentToAxios(e));
   };
-  console.log('스테이트', comment_data);
+
   return (
     <React.Fragment>
-      {comment_data.map((a) => {
-        return (
+      <>
+        {(commentInfo.commentId ? TF : false) ? (
           <>
-            {(comment_data.find((c) => c.id === a.id) ? TF : false) ? (
-              <>
-                <CommentForm />
+            <CommentForm
+              value={commentInfo.commentId}
+              TF={TF}
+              TFfunction={editPost}
+            />
 
-                <OptionBox>…</OptionBox>
-                <div onClick={editPost}>수정</div>
-                <div
-                  onClick={() => {
-                    deletePost(a.id);
-                  }}
-                >
-                  삭제
-                </div>
-              </>
-            ) : (
-              <Container>
-                <UserImg bg={a.profile} />
-                <Cmt>
-                  <UserName>{a.userName}</UserName>
-                  {a.content}
-                </Cmt>
-
-                <OptionBox>…</OptionBox>
-                <div onClick={editPost}>수정</div>
-                <div
-                  onClick={() => {
-                    deletePost(a.id);
-                  }}
-                >
-                  삭제
-                </div>
-              </Container>
-            )}
+            <OptionBox>…</OptionBox>
+            <div onClick={editPost}>수정</div>
+            <div
+              onClick={() => {
+                deletePost(commentInfo.commentId);
+              }}
+            >
+              삭제
+            </div>
           </>
-        );
-      })}
+        ) : (
+          <Container>
+            <UserImg bg={commentInfo.profile} />
+            <Cmt>
+              <UserName>{commentInfo.userName}</UserName>
+              {commentInfo.comment}
+            </Cmt>
+
+            <OptionBox>…</OptionBox>
+            <div onClick={editPost}>수정</div>
+            <div
+              onClick={() => {
+                deletePost(commentInfo.commentId);
+              }}
+            >
+              삭제
+            </div>
+          </Container>
+        )}
+      </>
     </React.Fragment>
   );
 };

@@ -2,15 +2,14 @@ import React, { useEffect } from 'react';
 import CommentForm from './CommentForm';
 import Comment from './Comment';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
-import { loadPostsToAxios } from '../redux/modules/posts';
+import { useSelector } from 'react-redux';
 
-const CommentList = () => {
+const CommentList = (props) => {
+  // console.log('프롭스', props.value);
   // const comment_data = useSelector((state) => state.posts.postList);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(loadPostsToAxios());
-  }, []);
+  const comment_data = props.value.comment;
+  console.log('코멘트데이터', comment_data);
+
   return (
     <React.Fragment>
       <Line />
@@ -18,9 +17,15 @@ const CommentList = () => {
         <h1>가로 750px</h1>
         <ChildContainer>
           <h1> 가로 650px에 패딩 16px</h1>
-
-          <CommentForm />
-          <Comment />
+          <CommentForm value={props.value} />
+          {comment_data &&
+            comment_data.map((a) => {
+              return (
+                <div>
+                  <Comment id={a.commentId} value={a} />
+                </div>
+              );
+            })}
         </ChildContainer>
       </Container>
     </React.Fragment>
@@ -29,6 +34,7 @@ const CommentList = () => {
 
 const Line = styled.hr`
   width: 682px;
+  margin: 0 auto;
 `;
 const Container = styled.div`
   width: 750px;
