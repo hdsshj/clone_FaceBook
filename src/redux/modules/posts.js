@@ -1,6 +1,7 @@
 import { produce } from 'immer';
 import { act } from 'react-dom/test-utils';
 import axiosinstance from '../../api/axiosinstance';
+import T from '../../api/tokenInstance';
 //posts
 const LOAD_POST_LIST = 'posts/LOAD_POST_LIST';
 const LOAD_CURRENT_POST = 'posts/LOAD_CURRENT_POST';
@@ -88,11 +89,13 @@ const initialState = {
   current: {},
 };
 
+const baseURL = process.env.REACT_APP_REMOTE_SERVER_URI;
+
 export const addCommentToAxios = (comment, postId) => async (dispatch) => {
   console.log('우석빌런', comment, postId);
 
   try {
-    const { data } = await axiosinstance.POST(comment, postId);
+    const { data } = await T.POST(`/comment/${postId}`, comment);
     console.log('데이터', data);
   } catch (error) {
     console.error(error);
@@ -103,14 +106,14 @@ export const addCommentToAxios = (comment, postId) => async (dispatch) => {
 // 게시글 리스트 로드
 export const loadPostsToAxios = () => async (dispatch) => {
   try {
-    const res = await axiosinstance.GET();
+    const res = await T.GET();
     // const {
     //   data: {
     //     posts: { content, totalElements },
     //   },
     // } = res;
     dispatch(loadPosts(res.data));
-    // console.log('게시글 리스트 정보', res.data);
+    console.log('게시글 리스트 정보', res.data);
   } catch (error) {
     console.error(error);
   }
@@ -118,7 +121,7 @@ export const loadPostsToAxios = () => async (dispatch) => {
 
 export const loadCurrentPostToAxios = (postId) => async (dispatch) => {
   try {
-    const { data } = await axiosinstance.GET();
+    const { data } = await T.GET();
     dispatch(loadCurrentPost(Number(postId), data));
   } catch (error) {
     console.error(error);
@@ -140,9 +143,8 @@ export const loadCurrentPostToAxios = (postId) => async (dispatch) => {
 
 export const modifyCommentToAxios =
   (commentId, comment) => async (dispatch) => {
-    let payload = { commentId, comment };
     try {
-      const { data } = await axiosinstance.PATCH(commentId, comment);
+      const { data } = await T.PATCH(`/comment/${commentId}`, comment);
       console.log('수정 데이터', data);
       console.log('수정 데이터2', data.comment);
       if (data.result === 'success') {
@@ -156,7 +158,7 @@ export const modifyCommentToAxios =
 export const removeCommentToAxios = (commentId) => async (dispatch) => {
   console.log('삭제아이디', commentId);
   try {
-    const { data } = await axiosinstance.DELETE(commentId);
+    const { data } = await T.DELETE(`/comment/${commentId}`);
     console.log('데이타확인', data);
     if (data.result === 'success') {
       console.log('성공확인', data.result);
