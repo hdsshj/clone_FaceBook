@@ -90,11 +90,18 @@ const initialState = {
 
 const baseURL = process.env.REACT_APP_REMOTE_SERVER_URI;
 
+export const addContentToAxios = (content) => (dispatch) => {
+  T.POST("/post", {content})
+  .then((response) => {
+    console.log(response)
+  })
+};
+
 export const addCommentToAxios = (comment, postId) => async (dispatch) => {
   console.log('우석빌런', comment, postId);
 
   try {
-    const { data } = await T.POST(`/comment/${postId}`,comment);
+    const { data } = await T.POST(`/comment/${postId}`, comment);
     console.log('데이터', data);
   } catch (error) {
     console.error(error);

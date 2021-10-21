@@ -29,7 +29,7 @@ const Post = (props) => {
       <div className="post__top">
         <Avatar /* src={profile} */ className="post__avatar" />
         <div className="post__topInfo">
-          <h3>{postInfo.userNam}</h3>
+          <h3>{postInfo.userName}</h3>
           <p>{postInfo.insertDt}</p>
         </div>
       </div>
