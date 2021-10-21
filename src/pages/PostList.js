@@ -19,7 +19,7 @@ const PostList = () => {
       <MessageSender />
       {postList &&
         postList.map((p) => {
-          // console.log('각 포스트', p);
+          console.log('피', p);
           return <Post value={p} />;
         })}
       {/* <Post

@@ -125,6 +125,19 @@ export const loadCurrentPostToAxios = (postId) => async (dispatch) => {
   }
 };
 
+// export const addCommentToAxios = (postId, comment) => async (dispatch) => {
+//   let addedComment;
+
+//   try {
+//     const { data } = await axiosinstance.POST(postId, comment);
+//     addedComment = data;
+//     console.log('데이터', data);
+//   } catch (error) {
+//     console.error(error);
+//   }
+//   dispatch(addCommentToPost(addedComment));
+// };
+
 export const modifyCommentToAxios =
   (commentId, comment) => async (dispatch) => {
     let payload = { commentId, comment };
