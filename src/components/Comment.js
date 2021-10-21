@@ -7,9 +7,8 @@ import {
   removeCommentToPost,
 } from '../redux/modules/posts';
 const Comment = (props) => {
-  // console.log('props', props);
+  console.log('props', props.value);
   const commentInfo = props.value;
-  // console.log('프롭스밸류', commentInfo.commentId);
   const dispatch = useDispatch();
 
   const [TF, setTF] = React.useState(false);

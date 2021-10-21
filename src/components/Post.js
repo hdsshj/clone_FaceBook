@@ -11,16 +11,13 @@ import { loadCurrentPostToAxios } from '../redux/modules/posts';
 
 const Post = (props) => {
   // console.log('포스트프롭스', props.value);
-  console.log('포포', props);
   const postInfo = props.value;
   const postId = props.value.postId;
-  const dispatch = useDispatch();
   const [visible, setVisible] = React.useState(false);
-  const commentVisible = (e) => {
-    console.log('이이0', e);
-    if (postId === e) {
-      setVisible(!visible);
-    }
+  const commentVisible = () => {
+    // if (postId === e) {
+    setVisible(!visible);
+    // }
     return;
   };
   //포스트 아이디를 보내서 댓글 정보 로드
