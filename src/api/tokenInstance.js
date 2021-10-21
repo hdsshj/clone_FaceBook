@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getToken } from '../utils/auth';
+import { getToken } from '../utills/auth';
 
 const baseURL = process.env.REACT_APP_REMOTE_SERVER_URI;
 

@@ -1,6 +1,6 @@
 import { produce } from 'immer';
-import { act } from 'react-dom/test-utils';
 import axiosinstance from '../../api/axiosinstance';
+import T from '../../api/tokenInstance';
 //posts
 const LOAD_POST_LIST = 'posts/LOAD_POST_LIST';
 const LOAD_CURRENT_POST = 'posts/LOAD_CURRENT_POST';
@@ -92,7 +92,7 @@ export const addCommentToAxios = (comment, postId) => async (dispatch) => {
   console.log('우석빌런', comment, postId);
 
   try {
-    const { data } = await axiosinstance.POST(comment, postId);
+    const { data } = await T.POST(`/comment/${postId}`,comment);
     console.log('데이터', data);
   } catch (error) {
     console.error(error);
@@ -103,14 +103,10 @@ export const addCommentToAxios = (comment, postId) => async (dispatch) => {
 // 게시글 리스트 로드
 export const loadPostsToAxios = () => async (dispatch) => {
   try {
-    const res = await axiosinstance.GET();
-    // const {
-    //   data: {
-    //     posts: { content, totalElements },
-    //   },
-    // } = res;
+    const res = await T.GET('/post');
+    console.log('게시글 리스트 정보', res.data);
+
     dispatch(loadPosts(res.data));
-    // console.log('게시글 리스트 정보', res.data);
   } catch (error) {
     console.error(error);
   }

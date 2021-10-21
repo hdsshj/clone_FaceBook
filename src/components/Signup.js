@@ -186,6 +186,7 @@ const Signup = ({ show, onHide }) => {
           <Grid is_flex>
             <TextField
               sx={{ margin: '10px 6px 5px 0px' }}
+              type='text'
               size="small"
               fullWidth={true}
               placeholder="성(姓)"
@@ -195,6 +196,7 @@ const Signup = ({ show, onHide }) => {
             />
             <TextField
               sx={{ margin: '10px 0px 5px 6px' }}
+              type='text'
               size="small"
               fullWidth={true}
               placeholder="이름(성은 제외)"
@@ -206,15 +208,17 @@ const Signup = ({ show, onHide }) => {
           <Grid>
             <TextField
               sx={{ margin: '10px 0px 5px 0px' }}
+              type='email'
               size="small"
               fullWidth={true}
-              placeholder="휴대폰 번호 또는 이메일"
+              placeholder="이메일만 입력해주세요."
               variant="outlined"
               value={email}
               onChange={handleEmailChange}
             />
             <TextField
               sx={{ margin: '10px 0px 5px 0px' }}
+              type='password'
               size="small"
               fullWidth={true}
               placeholder="새 비밀번호"
