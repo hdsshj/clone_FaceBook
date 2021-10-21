@@ -1,7 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { useDispatch } from 'react-redux';
+
 import { Grid } from '../elements/index';
+
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -12,7 +15,8 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
 import SelectBox from '../elements/SelectBox';
-import { PasswordTwoTone } from '@mui/icons-material';
+import { signUpToServer } from '../redux/modules/user';
+
 
 const boxStyle = {
   position: 'absolute',
@@ -34,6 +38,7 @@ const selectBoxOption = {
 };
 
 const Signup = ({ show, onHide }) => {
+  const dispatch = useDispatch()
   // 이름
   const [lastName, setLastName] = React.useState('');
   const [firstName, setFirstName] = React.useState('');
@@ -137,10 +142,22 @@ const Signup = ({ show, onHide }) => {
   const signUp = () => {
     const profile = profileRef.current.files[0];
 
-    const formData = new FormData();
-    formData.append('image', profile);
+    // const formData = new FormData();
+    // formData.append('profile', profile);
 
-    console.log({ userName, email, birthday, gender, profile, pw: password });
+
+    const formData = new FormData();
+    formData.append('profile', profile);
+    formData.append('userName', userName);
+    formData.append('email', email);
+    formData.append('birthday', birthday);
+    formData.append('gender', gender);
+    formData.append('pw', password);
+
+    console.log(formData);
+    
+    // dispatch(signUpToServer({ userName, email, birthday, gender, formData, pw: password }));
+    dispatch(signUpToServer(formData));
   };
 
   return (
@@ -313,7 +330,9 @@ const Signup = ({ show, onHide }) => {
             </p>
           </Grid>
           <Grid>
+
             <input ref={profileRef} onChange={readerUrl} type="file" />
+          
           </Grid>
           {/* <ImageCircle style={{ width: '40px', height: '40px', backgroundImage: `url(${profileUrl})`}} /> */}
           <ImageCircle src={profileUrl ? profileUrl : 'https://scontent-ssn1-1.xx.fbcdn.net/v/t1.30497-1/cp0/p50x50/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-5&_nc_sid=7206a8&_nc_ohc=RSszpkf2LQkAX-abUaK&_nc_ht=scontent-ssn1-1.xx&oh=d682cbc5edf118185fd72f32e130ff6d&oe=6193F7A2'} size='200'/>
