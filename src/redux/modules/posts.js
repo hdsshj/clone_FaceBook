@@ -1,3 +1,4 @@
+import { CountertopsOutlined } from '@mui/icons-material';
 import { produce } from 'immer';
 import axiosinstance from '../../api/axiosinstance';
 import T from '../../api/tokenInstance';
@@ -30,9 +31,9 @@ const likeToPost = (Like) => ({
   payload: Like,
 });
 
-const createPost = (newPost) => ({
+const createPost = (content) => ({
   type: CREATE,
-  payload: newPost,
+  payload: content,
 });
 
 const updatePost = (updatedPost) => ({
@@ -95,17 +96,29 @@ const initialState = {
 
 const baseURL = process.env.REACT_APP_REMOTE_SERVER_URI;
 
-export const addContentToAxios = (content) => (dispatch) => {
-  T.POST('/post', { content }).then((response) => {
-    console.log(response);
-  });
+export const addContentToAxios = (content) => async (dispatch) => {
+  console.log('콘텐트추가', content);
+  try {
+    const { data } = await T.POST('/post', { content });
+    console.log('콘텐트데이터', data);
+  } catch (error) {
+    console.error(error);
+  }
+  dispatch(createPost(content));
 };
 
-export const deleteContentToAxios = (postId) => (dispatch) => {
-  console.log(postId)
-  T.DELETE(`/post/${postId}`).then((response) => {
-    console.log(response)
-  });
+export const deleteContentToAxios = (postId) => async (dispatch) => {
+  console.log('포스트삭제아디', postId);
+  try {
+    const { data } = T.DELETE(`/post/${postId}`);
+    console.log('포스트데이터확인', data);
+    console.log(data);
+    if (data.result === '게시글이 삭제되었습니다!') {
+      console.log('성공확인', data.result);
+      dispatch(deletePost(postId));
+    }
+  } catch (error) {
+  }
 };
 
 export const addCommentToAxios = (comment, postId) => async (dispatch) => {
@@ -154,14 +167,14 @@ export const loadCurrentPostToAxios = (postId) => async (dispatch) => {
 
 export const updatePostToAxios = (postId, content) => async (dispatch) => {
   try {
-    console.log('미들웨어 패치')
-    console.log(postId, content)
+    console.log('미들웨어 패치');
+    console.log(postId, content);
     const { data } = await T.PATCH(`/post/${postId}`, content);
-    console.log(data)
+    console.log(data);
   } catch (error) {
     console.error(error);
   }
-}
+};
 
 // export const addCommentToAxios = (postId, comment) => async (dispatch) => {
 //   let addedComment;
@@ -233,9 +246,11 @@ export default function postsReducer(state = initialState, action) {
         break;
       }
       case DELETE: {
-        console.log('DELETE');
-        console.log(action.payload);
-        break;
+        //리덕스 삭제
+        const newContent = draft.postList.filter((a) => {
+          return a.id !== action.payload;
+        });
+        return { postList: newContent };
       }
       case LIKE_POST: {
         console.log('좋아요', action.payload);
