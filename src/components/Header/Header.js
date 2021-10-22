@@ -30,42 +30,42 @@ const Header = () => {
     removeToken(TOKEN_KEY);
     history.replace('/sign');
   };
-  
-  const isUserLogin = useSelector((state) => Boolean(state.user.email));
+
+  const userInfo = useSelector((state) => state.user);
+
   return (
     <div className="header">
       <div className="header__left">
-        <img
-          src="http://links.papareact.com/5me"
-          alt=""
-        />
+        <img src="http://links.papareact.com/5me" alt="" />
         <div className="header__input">
-        <SearchIcon />
-          <input placeholder='Facebook 검색' type="text" />
+          <SearchIcon />
+          <input placeholder="Facebook 검색" type="text" />
         </div>
       </div>
       <div className="header__center">
-        <div className="header__option
-        header__option--active">
-        <HomeIcon fontSize="large" />
+        <div
+          className="header__option
+        header__option--active"
+        >
+          <HomeIcon fontSize="large" />
         </div>
         <div className="header__option">
-        <PeopleOutlineIcon fontSize="large" />
+          <PeopleOutlineIcon fontSize="large" />
         </div>
         <div className="header__option">
-        <OndemandVideoOutlinedIcon fontSize="large" />
+          <OndemandVideoOutlinedIcon fontSize="large" />
         </div>
         <div className="header__option">
-        <GroupsOutlinedIcon fontSize="large" />
+          <GroupsOutlinedIcon fontSize="large" />
         </div>
         <div className="header__option">
-        <DashboardOutlinedIcon fontSize="large" />
+          <DashboardOutlinedIcon fontSize="large" />
         </div>
       </div>
       <div className="header__right">
         <div className="header__info">
           <Avatar />
-          <h4>이민국</h4>
+          <h4>{userInfo.userName}</h4>
         </div>
 
         <IconButton>
@@ -78,7 +78,7 @@ const Header = () => {
           <NotificationsIcon />
         </IconButton>
         <IconButton>
-          <LogoutIcon onClick={sign}/>
+          <LogoutIcon onClick={sign} />
         </IconButton>
       </div>
     </div>

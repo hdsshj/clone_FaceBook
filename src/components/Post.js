@@ -9,8 +9,6 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import CommentList from './CommentList';
 import MenuBtn from './MenuBtn';
 
-import PostEdit from './PostEdit';
-
 import {
   deleteContentToAxios,
   loadCurrentPostToAxios,
@@ -19,17 +17,11 @@ import {
 
 const Post = (props) => {
   const dispatch = useDispatch();
-  // console.log('포스트프롭스', props.value);
   const postInfo = props.value;
   const like = postInfo.like;
-  console.log('라이크', like);
   const postId = props.value.postId;
   const [visible, setVisible] = React.useState(false);
   const [modalShow, setModalShow] = React.useState(false);
-
-  const deleteContent = (e) => {
-    dispatch(deleteContentToAxios(e));
-  };
 
   const commentVisible = () => {
     setVisible(!visible);
@@ -55,9 +47,6 @@ const Post = (props) => {
     }
   }, []);
 
-  const handleModal = () => {
-    setModalShow(true);
-  };
   //포스트 아이디를 보내서 댓글 정보 로드
   // const commentLoad = (e) => {
   //   dispatch(loadCurrentPostToAxios(e));
@@ -67,29 +56,13 @@ const Post = (props) => {
       <div className="post__top">
         <Avatar /* src={profile} */ className="post__avatar" />
         <div className="post__menubtn">
-          <MenuBtn userName={postInfo.userName} />
+          <MenuBtn userName={postInfo.userName} currentPost={postInfo} />
         </div>
         <div className="post__topInfo">
           <h3>{postInfo.userName}</h3>
           <p>{postInfo.insertDt}</p>
         </div>
-        <div
-          className="post__delete"
-          onClick={() => {
-            deleteContent(postId);
-          }}
-        >
-          <HighlightOffIcon />
-        </div>
       </div>
-      <button onClick={handleModal}>수정</button>
-      <PostEdit
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-        currentPost={postInfo}
-      />
-
-      <button>삭제</button>
       <div className="post__bottom">
         <p>{postInfo.content}</p>
       </div>
@@ -102,7 +75,6 @@ const Post = (props) => {
         <div
           className="post__option"
           onClick={() => {
-            console.log('야호');
             likeBtn(postId);
           }}
           style={color}

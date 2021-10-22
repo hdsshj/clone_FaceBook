@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
+
 import SelectBox from '../elements/SelectBox';
 import { signUpToServer } from '../redux/modules/user';
 
@@ -116,15 +117,6 @@ const Signup = ({ show, onHide }) => {
   // 프로필
   const [profileUrl, setProfileUrl] = React.useState('');
   const profileRef = React.useRef('');
-  // const [profile, setProfile] = React.useState('')
-
-  // const handleProfileChange = (event) => {
-  //   // setProfile(event.target.files);
-  //   console.log(profileRef.current.files[0])
-  //   // console.log(profile)
-
-  //   // const fromDat = new FormData();
-  // };
 
   const readerUrl = () => {
     if (!profileRef.current.files[0]) {
@@ -154,9 +146,6 @@ const Signup = ({ show, onHide }) => {
     formData.append('gender', gender);
     formData.append('pw', password);
 
-    console.log(formData);
-    
-    // dispatch(signUpToServer({ userName, email, birthday, gender, formData, pw: password }));
     dispatch(signUpToServer(formData));
   };
 

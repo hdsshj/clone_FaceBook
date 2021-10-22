@@ -8,7 +8,6 @@ import {
 } from '../redux/modules/posts';
 import { style } from '@mui/system';
 const Comment = (props) => {
-  console.log('props', props.value);
   const commentInfo = props.value;
   const dispatch = useDispatch();
 

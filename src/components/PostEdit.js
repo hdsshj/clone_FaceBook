@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { Grid } from '../elements/index';
 
+import { history } from '../redux/configStore';
+
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
@@ -38,13 +40,41 @@ const selectBoxOption = {
 const PostEdit = ({ show, onHide, currentPost }) => {
   const dispatch = useDispatch();
   const [updateContent, setUpdateContent] = React.useState(currentPost.content);
+  const [showImageUpLoder, setShowImageUpLoder] = React.useState(
+    currentPost.image ? true : false,
+  );
+  const [updateImageUrl, setUpdateImageUrl] = React.useState(currentPost.image);
   const postId = currentPost.postId;
-  
-  const updatePost = () => {
-    console.log(postId, { content: updateContent });
-    dispatch(updatePostToAxios(postId, { content: updateContent }));
+  const imageRef = React.useRef('');
+
+  const handleImageUpLoader = (e) => {
+    setShowImageUpLoder(!showImageUpLoder);
   };
-  console.log(currentPost);
+
+  const readerUrl = () => {
+    if (!imageRef.current.files[0]) {
+      return;
+    }
+    const reader = new FileReader();
+    const file = imageRef.current.files[0];
+
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setUpdateImageUrl(reader.result);
+    };
+  };
+
+  const updatePost = async () => {
+    const image = imageRef.current.files[0] ? imageRef.current.files[0] : null;
+
+    const formData = new FormData();
+    formData.append('content', updateContent);
+    imageRef.current.files[0] && formData.append('image', image);
+
+    await dispatch(updatePostToAxios(postId, formData));
+    history.push('/');
+  };
+
   return (
     <Grid>
       <Modal
@@ -83,6 +113,19 @@ const PostEdit = ({ show, onHide, currentPost }) => {
                   }}
                 />
               </form>
+              {showImageUpLoder && (
+                <UpLoaderWrap>
+                  <p>사진/동영상 추가</p>
+                  <input ref={imageRef} onChange={readerUrl} type="file" />
+                  <ImagePreview
+                    src={
+                      currentPost.image
+                        ? updateImageUrl
+                        : 'https://i0.wp.com/www.lumosmarketing.io/wp-content/uploads/2019/04/placeholder-image.jpg?resize=360%2C300&ssl=1'
+                    }
+                  />
+                </UpLoaderWrap>
+              )}
               <div className="imageBox">
                 <img
                   height="38"
@@ -96,7 +139,7 @@ const PostEdit = ({ show, onHide, currentPost }) => {
                 <h4>게시물에 추가</h4>
               </div>
               <div className="addIcon">
-                <div className="write__option">
+                <div className="write__option" onClick={handleImageUpLoader}>
                   <FilterIcon style={{ color: '#45bd62', fontSize: '24px' }} />
                 </div>
                 <div className="write__option">
@@ -130,4 +173,21 @@ const PostEdit = ({ show, onHide, currentPost }) => {
   );
 };
 
+const UpLoaderWrap = styled.div`
+  height: auto;
+  border: 1px solid #ddd;
+  margin: 10px 0px;
+  border-radius: 10px;
+`;
+
+const ImagePreview = styled.div`
+  /* size: px; */
+  width: 80%;
+  height: 250px;
+  object-fit: cover;
+  vertical-align: middle;
+  background-image: url('${(props) => props.src}');
+  background-size: cover;
+  margin: 20px auto;
+`;
 export default PostEdit;

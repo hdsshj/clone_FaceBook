@@ -18,6 +18,11 @@ import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CloseIcon from '@mui/icons-material/Close';
 import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+import PostEdit from './PostEdit';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteContentToAxios } from '../redux/modules/posts';
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -38,7 +43,9 @@ const StyledMenu = styled((props) => (
     marginTop: theme.spacing(1),
     minWidth: 180,
     color:
-      theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
+      theme.palette.mode === 'light'
+        ? 'rgb(55, 65, 81)'
+        : theme.palette.grey[300],
     boxShadow:
       'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
     '& .MuiMenu-list': {
@@ -60,19 +67,30 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-export default function CustomizedMenus({ userName}) {
+export default function CustomizedMenus({ userName, currentPost }) {
+  const dispatch = useDispatch()
+  const loginUserName = useSelector((state) => state.user.userName);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [modalShow, setModalShow] = React.useState(false);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+  const handleClose = (e) => {
+    setAnchorEl(null);
+  };
+
+  const handleModal = () => {
+    setModalShow(true);
+  };
+
+  const deleteContent = () => {
+    dispatch(deleteContentToAxios(currentPost.postId));
     setAnchorEl(null);
   };
 
   return (
     <div>
-
       <IconButton
         aria-label="more"
         id="long-button"
@@ -83,7 +101,7 @@ export default function CustomizedMenus({ userName}) {
       >
         <MoreVertIcon />
       </IconButton>
- 
+
       <StyledMenu
         id="demo-customized-menu"
         MenuListProps={{
@@ -97,10 +115,27 @@ export default function CustomizedMenus({ userName}) {
           <BookmarkBorderIcon />
           게시물 저장
         </MenuItem>
+        {userName === loginUserName && (
+          <MenuItem onClick={handleModal} disableRipple>
+            <EditIcon />
+            게시물 수정
+          </MenuItem>
+        )}
+        <PostEdit
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+          currentPost={currentPost}
+        />
+
+        {userName === loginUserName && (
+          <MenuItem onClick={deleteContent} disableRipple>
+            <DeleteIcon />
+            게시물 삭제
+          </MenuItem>
+        )}
         <Divider sx={{ my: 0.5 }} />
         <MenuItem onClick={handleClose} disableRipple>
-          <NotificationsNoneIcon />
-          이 게시물에 대한 알림 설정
+          <NotificationsNoneIcon />이 게시물에 대한 알림 설정
         </MenuItem>
         <MenuItem onClick={handleClose} disableRipple>
           <CodeIcon />
