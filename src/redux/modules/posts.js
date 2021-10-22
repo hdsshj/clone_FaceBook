@@ -95,6 +95,19 @@ const initialState = {
 
 const baseURL = process.env.REACT_APP_REMOTE_SERVER_URI;
 
+export const addContentToAxios = (content) => (dispatch) => {
+  T.POST('/post', { content }).then((response) => {
+    console.log(response);
+  });
+};
+
+export const deleteContentToAxios = (postId) => (dispatch) => {
+  console.log(postId)
+  T.DELETE(`/post/${postId}`).then((response) => {
+    console.log(response)
+  });
+};
+
 export const addCommentToAxios = (comment, postId) => async (dispatch) => {
   try {
     const { data } = await T.POST(`/comment/${postId}`, comment);
@@ -133,6 +146,30 @@ export const loadCurrentPostToAxios = (postId) => async (dispatch) => {
     console.error(error);
   }
 };
+
+export const updatePostToAxios = (postId, content) => async (dispatch) => {
+  try {
+    console.log('미들웨어 패치')
+    console.log(postId, content)
+    const { data } = await T.PATCH(`/post/${postId}`, content);
+    console.log(data)
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// export const addCommentToAxios = (postId, comment) => async (dispatch) => {
+//   let addedComment;
+
+//   try {
+//     const { data } = await axiosinstance.POST(postId, comment);
+//     addedComment = data;
+//     console.log('데이터', data);
+//   } catch (error) {
+//     console.error(error);
+//   }
+//   dispatch(addCommentToPost(addedComment));
+// };
 
 export const modifyCommentToAxios =
   (commentId, comment) => async (dispatch) => {

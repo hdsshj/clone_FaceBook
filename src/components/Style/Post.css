@@ -17,9 +17,25 @@
   margin-right: 10px;
 }
 
+.post__menubtn {
+  position: absolute;
+  right: 20px;
+  transform: rotate(90deg);
+}
+
 .post__topInfo > p {
   font-size: small;
   color: gray;
+}
+
+.post__delete {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 36px;
+  width: 36px;
+  border-radius: 20px;
+  background-color: gray;
 }
 
 .post__bottom {
@@ -48,7 +64,7 @@
   align-items: center;
   justify-content: center;
   padding: 5px;
-  flex:1;
+  flex: 1;
 }
 
 .post__option > p {
