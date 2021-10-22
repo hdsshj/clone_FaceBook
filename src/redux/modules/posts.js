@@ -139,6 +139,30 @@ export const loadCurrentPostToAxios = (postId) => async (dispatch) => {
   }
 };
 
+export const updatePostToAxios = (postId, content) => async (dispatch) => {
+  try {
+    console.log('미들웨어 패치')
+    console.log(postId, content)
+    const { data } = await T.PATCH(`/post/${postId}`, content);
+    console.log(data)
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// export const addCommentToAxios = (postId, comment) => async (dispatch) => {
+//   let addedComment;
+
+//   try {
+//     const { data } = await axiosinstance.POST(postId, comment);
+//     addedComment = data;
+//     console.log('데이터', data);
+//   } catch (error) {
+//     console.error(error);
+//   }
+//   dispatch(addCommentToPost(addedComment));
+// };
+
 export const modifyCommentToAxios =
   (commentId, comment) => async (dispatch) => {
     try {
