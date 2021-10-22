@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Style/PostWrite.css';
 import styled from 'styled-components';
 
 import { Grid } from '../elements/index';
+import { useDispatch } from 'react-redux';
+import { addContentToAxios } from '../redux/modules/posts';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -34,7 +36,23 @@ const selectBoxOption = {
   margin: '10px 0px',
 };
 
-const Signup = ({ show, onHide, userName }) => {
+const PostWrite = ({ show, onHide, userName }) => {
+  const [content, setContent] = React.useState('');
+
+  const dispatch = useDispatch();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    dispatch(addContentToAxios(content));
+  }
+
+
+  const changeContent = (e) => {
+    setContent(e.target.value);
+  };
+
   return (
     <Grid>
       <Modal
@@ -64,8 +82,12 @@ const Signup = ({ show, onHide, userName }) => {
               </div>
             </div>
             <div className="write__middle">
-              <form>
-                <input placeholder="이민국님, 무슨 생각을 하고 계신가요?" />
+              <form onSubmit={handleSubmit}>
+                <input
+                  value={content}
+                  onChange={changeContent}
+                  placeholder="이민국님, 무슨 생각을 하고 계신가요?"
+                />
               </form>
               <div className="imageBox">
                 <img
@@ -84,27 +106,29 @@ const Signup = ({ show, onHide, userName }) => {
                   <FilterIcon style={{ color: '#45bd62', fontSize: '24px' }} />
                 </div>
                 <div className="write__option">
-                <LocalOfferIcon
-                  style={{ color: '#1877f2', fontSize: '24px' }}
-                /></div>
-                <div className="write__option">
-                <InsertEmoticonOutlinedIcon
-                  style={{ color: '#f7b928', fontSize: '24px' }}
-                /></div>
-                <div className="write__option">
-                <RoomIcon style={{ color: '#f5533d', fontSize: '24px' }} />
+                  <LocalOfferIcon
+                    style={{ color: '#1877f2', fontSize: '24px' }}
+                  />
                 </div>
                 <div className="write__option">
-                <MicIcon style={{ color: '#f02849', fontSize: '24px' }} />
+                  <InsertEmoticonOutlinedIcon
+                    style={{ color: '#f7b928', fontSize: '24px' }}
+                  />
                 </div>
                 <div className="write__option">
-                <MoreHorizIcon style={{ color: '#606770' }} />
+                  <RoomIcon style={{ color: '#f5533d', fontSize: '24px' }} />
+                </div>
+                <div className="write__option">
+                  <MicIcon style={{ color: '#f02849', fontSize: '24px' }} />
+                </div>
+                <div className="write__option">
+                  <MoreHorizIcon style={{ color: '#606770' }} />
                 </div>
               </div>
             </div>
             <div className="write__button">
-              <button>게시</button>
-              </div>
+              <button type="submit">게시</button>
+            </div>
           </Grid>
         </Box>
       </Modal>
@@ -112,4 +136,4 @@ const Signup = ({ show, onHide, userName }) => {
   );
 };
 
-export default Signup;
+export default PostWrite;

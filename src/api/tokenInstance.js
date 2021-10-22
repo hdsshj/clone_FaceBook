@@ -18,7 +18,7 @@ export default {
   GET: () => instance.get(`/api/post`),
   POST: (endpoint, body) => instance.post(`/api${endpoint}`, body),
   UPDATE: (endpoint, urlParam, body) =>
-    instance.fatch(`/api${endpoint}/${urlParam}`, body),
+    instance.patch(`/api${endpoint}/${urlParam}`, body), 
   DELETE: (endpoint) => instance.delete(`/api${endpoint}`),
   PATCH: (endpoint, body) => instance.patch(`/api${endpoint}`, body),
 };

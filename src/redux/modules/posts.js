@@ -95,6 +95,19 @@ const initialState = {
 
 const baseURL = process.env.REACT_APP_REMOTE_SERVER_URI;
 
+export const addContentToAxios = (content) => (dispatch) => {
+  T.POST('/post', { content }).then((response) => {
+    console.log(response);
+  });
+};
+
+export const deleteContentToAxios = (postId) => (dispatch) => {
+  console.log(postId)
+  T.DELETE(`/post/${postId}`).then((response) => {
+    console.log(response)
+  });
+};
+
 export const addCommentToAxios = (comment, postId) => async (dispatch) => {
   console.log('우석빌런', comment, postId);
 
