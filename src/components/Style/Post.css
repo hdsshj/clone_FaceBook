@@ -28,6 +28,16 @@
   color: gray;
 }
 
+.post__delete {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 36px;
+  width: 36px;
+  border-radius: 20px;
+  background-color: gray;
+}
+
 .post__bottom {
   margin-top: 10px;
   margin-bottom: 10px;

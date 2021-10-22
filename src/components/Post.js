@@ -5,20 +5,25 @@ import { Avatar } from '@mui/material';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import ScreenShareOutlinedIcon from '@mui/icons-material/ScreenShareOutlined';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import CommentList from './CommentList';
 import MenuBtn from './MenuBtn';
 
 import PostEdit from './PostEdit'
 
-import { likeToAxios } from '../redux/modules/posts';
+import { deleteContentToAxios, loadCurrentPostToAxios, likeToAxios } from '../redux/modules/posts';
 
 const Post = (props) => {
-  // console.log('포스트프롭스', props.value);
   const dispatch = useDispatch();
+  // console.log('포스트프롭스', props.value);
   const postInfo = props.value;
   const postId = props.value.postId;
   const [visible, setVisible] = React.useState(false);
   const [modalShow, setModalShow] = React.useState(false);
+
+  const deleteContent = (e) => {
+    dispatch(deleteContentToAxios(e))
+  }
 
   const commentVisible = () => {
     // if (postId === e) {
@@ -55,6 +60,9 @@ const Post = (props) => {
         <div className="post__topInfo">
           <h3>{postInfo.userName}</h3>
           <p>{postInfo.insertDt}</p>
+        </div>
+        <div className="post__delete" onClick={() => {deleteContent(postId)}} >
+          <HighlightOffIcon/>
         </div>
       </div>
       <button onClick={handleModal}>수정</button>
