@@ -96,8 +96,6 @@ const initialState = {
 const baseURL = process.env.REACT_APP_REMOTE_SERVER_URI;
 
 export const addCommentToAxios = (comment, postId) => async (dispatch) => {
-  console.log('우석빌런', comment, postId);
-
   try {
     const { data } = await T.POST(`/comment/${postId}`, comment);
     console.log('데이터', data);
@@ -108,10 +106,8 @@ export const addCommentToAxios = (comment, postId) => async (dispatch) => {
 };
 
 export const likeToAxios = (Like) => async (dispatch) => {
-  console.log('ㅁㄴㅇ', Like);
   try {
     const { data } = await T.POST(`/like`, Like);
-    console.log('데이ㅓㅌ', data);
     dispatch(likeToPost(Like));
   } catch (error) {
     console.error(error);
@@ -122,7 +118,6 @@ export const likeToAxios = (Like) => async (dispatch) => {
 export const loadPostsToAxios = () => async (dispatch) => {
   try {
     const res = await T.GET('/post');
-    console.log('게시글 리스트 정보', res.data);
 
     dispatch(loadPosts(res.data));
   } catch (error) {
@@ -157,9 +152,7 @@ export const removeCommentToAxios = (commentId) => async (dispatch) => {
   console.log('삭제아이디', commentId);
   try {
     const { data } = await T.DELETE(`/comment/${commentId}`);
-    console.log('데이타확인', data);
     if (data.result === 'success') {
-      console.log('성공확인', data.result);
       dispatch(removeCommentToPost(commentId));
     }
   } catch (error) {

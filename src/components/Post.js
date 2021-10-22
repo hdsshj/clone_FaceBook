@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Style/Post.css';
 import { useDispatch } from 'react-redux';
 import { Avatar } from '@mui/material';
@@ -8,21 +8,23 @@ import ScreenShareOutlinedIcon from '@mui/icons-material/ScreenShareOutlined';
 import CommentList from './CommentList';
 
 import { likeToAxios } from '../redux/modules/posts';
+import { style } from '@mui/system';
 
 const Post = (props) => {
-  // console.log('포스트프롭스', props.value);
+  console.log('게시글리스트', props.value);
   const dispatch = useDispatch();
   const postInfo = props.value;
+  const like = postInfo.like;
+  console.log('라이크', like);
   const postId = props.value.postId;
   const [visible, setVisible] = React.useState(false);
   const commentVisible = () => {
-    // if (postId === e) {
     setVisible(!visible);
   };
   //좋아요
+
   const [color, setColor] = React.useState(null);
-  const likeColor = (e) => {
-    console.log('이이이이이', e);
+  const likeBtn = (e) => {
     if (color === null) {
       setColor({ color: 'blue' });
       dispatch(likeToAxios({ postId: e, like: true }));
@@ -31,15 +33,19 @@ const Post = (props) => {
       dispatch(likeToAxios({ postId: e, like: false }));
     }
   };
+  //새로고침시 좋아요 누른 게시글 파란색 유지
+  React.useEffect(() => {
+    if (like === true) {
+      setColor({ color: 'blue' });
+    } else {
+      setColor(null);
+    }
+  }, []);
 
-  //포스트 아이디를 보내서 댓글 정보 로드
-  // const commentLoad = (e) => {
-  //   dispatch(loadCurrentPostToAxios(e));
-  // };
   return (
     <div className="post">
       <div className="post__top">
-        <Avatar /* src={profile} */ className="post__avatar" />
+        <Avatar src={postInfo.profile} className="post__avatar" />
         <div className="post__topInfo">
           <h3>{postInfo.userName}</h3>
           <p>{postInfo.insertDt}</p>
@@ -54,27 +60,26 @@ const Post = (props) => {
       </div>
 
       <div className="post__options">
-        <div className="post__option" style={color}>
+        <div
+          className="post__option"
+          onClick={() => {
+            console.log('야호');
+            likeBtn(postId);
+          }}
+          style={color}
+        >
           <ThumbUpOutlinedIcon />
-          <p
-            onClick={() => {
-              console.log('야호');
-              likeColor(postId);
-            }}
-          >
-            좋아요
-          </p>
+          <p>좋아요</p>
         </div>
 
-        <div className="post__option">
+        <div
+          className="post__option"
+          onClick={() => {
+            commentVisible(postId);
+          }}
+        >
           <ChatBubbleOutlineOutlinedIcon />
-          <p
-            onClick={() => {
-              commentVisible(postId);
-            }}
-          >
-            댓글 달기
-          </p>
+          <p>댓글 달기</p>
         </div>
 
         <div className="post__option">

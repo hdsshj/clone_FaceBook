@@ -14,9 +14,7 @@ const CommentList = (props) => {
     <React.Fragment>
       <Line />
       <Container>
-        <h1>가로 750px</h1>
         <ChildContainer>
-          <h1> 가로 650px에 패딩 16px</h1>
           <CommentForm value={props.value} />
           {comment_data &&
             comment_data.map((a) => {
@@ -32,21 +30,25 @@ const CommentList = (props) => {
   );
 };
 
-const Line = styled.hr`
-  width: 682px;
-  margin: 0 auto;
+const Line = styled.div`
+  width: 100%;
+  height: 0.6px;
+  background-color: lightgray;
 `;
 const Container = styled.div`
-  width: 750px;
-  background-color: #eee;
+  width: 100%;
+  background-color: white;
+  padding-top: 25px;
   margin: 0 auto;
+  border-radius: 15px;
 `;
 const ChildContainer = styled.div`
-  width: 650px;
+  width: 700px;
   height: auto px;
-  background-color: #1877f2;
+  background-color: white;
   color: black;
   padding: 0 16px 16px 16px;
   margin: 0 auto;
+  border-radius: 15px;
 `;
 export default CommentList;
