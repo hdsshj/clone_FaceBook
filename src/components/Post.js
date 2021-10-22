@@ -7,6 +7,9 @@ import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutline
 import ScreenShareOutlinedIcon from '@mui/icons-material/ScreenShareOutlined';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import CommentList from './CommentList';
+import MenuBtn from './MenuBtn';
+
+import PostEdit from './PostEdit'
 
 import { deleteContentToAxios, loadCurrentPostToAxios, likeToAxios } from '../redux/modules/posts';
 
@@ -16,6 +19,7 @@ const Post = (props) => {
   const postInfo = props.value;
   const postId = props.value.postId;
   const [visible, setVisible] = React.useState(false);
+  const [modalShow, setModalShow] = React.useState(false);
 
   const deleteContent = (e) => {
     dispatch(deleteContentToAxios(e))
@@ -38,6 +42,10 @@ const Post = (props) => {
     }
   };
 
+
+  const handleModal = () => {
+    setModalShow(true);
+  };
   //포스트 아이디를 보내서 댓글 정보 로드
   // const commentLoad = (e) => {
   //   dispatch(loadCurrentPostToAxios(e));
@@ -46,6 +54,9 @@ const Post = (props) => {
     <div className="post">
       <div className="post__top">
         <Avatar /* src={profile} */ className="post__avatar" />
+        <div className="post__menubtn">
+          <MenuBtn userName={postInfo.userName} />
+        </div>
         <div className="post__topInfo">
           <h3>{postInfo.userName}</h3>
           <p>{postInfo.insertDt}</p>
@@ -54,6 +65,10 @@ const Post = (props) => {
           <HighlightOffIcon/>
         </div>
       </div>
+      <button onClick={handleModal}>수정</button>
+      <PostEdit show={modalShow} onHide={() => setModalShow(false)} currentPost={postInfo} />
+
+      <button>삭제</button>
       <div className="post__bottom">
         <p>{postInfo.content}</p>
       </div>
