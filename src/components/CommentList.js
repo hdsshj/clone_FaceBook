@@ -5,10 +5,7 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 
 const CommentList = (props) => {
-  // console.log('프롭스', props.value);
-  // const comment_data = useSelector((state) => state.posts.postList);
   const comment_data = props.value.comment;
-  console.log('코멘트데이터', comment_data);
 
   return (
     <React.Fragment>

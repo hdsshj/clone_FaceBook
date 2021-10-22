@@ -3,7 +3,7 @@ import './Style/PostWrite.css';
 import styled from 'styled-components';
 
 import { Grid } from '../elements/index';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addContentToAxios } from '../redux/modules/posts';
 
 import Box from '@mui/material/Box';
@@ -36,22 +36,50 @@ const selectBoxOption = {
   margin: '10px 0px',
 };
 
-const PostWrite = ({ show, onHide, userName }) => {
+const PostWrite = ({ show, onHide }) => {
   const [content, setContent] = React.useState('');
+  const userInfo = useSelector((state) => state.user);
+
+  const [imageUrl, setImageUrl] = React.useState('');
+  const imageRef = React.useRef('');
 
   const dispatch = useDispatch();
+  const readerUrl = () => {
+    if (!imageRef.current.files[0]) {
+      return;
+    }
+    const reader = new FileReader();
+    const file = imageRef.current.files[0];
+
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImageUrl(reader.result);
+    };
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    
-    dispatch(addContentToAxios(content));
-  }
+    const image = imageRef.current.files[0];
 
+    const formData = new FormData();
+    formData.append('content', content);
+    formData.append('image', image);
+
+    dispatch(addContentToAxios(formData));
+  };
 
   const changeContent = (e) => {
     setContent(e.target.value);
   };
+
+  const [showImageUpLoder, setShowImageUpLoder] = React.useState(false);
+
+  const handleImageUpLoader = (e) => {
+    setShowImageUpLoder(!showImageUpLoder);
+  };
+
+  const placeHolder = `${userInfo.userName}님, 무슨 생각을 하고 계신가요?`;
 
   return (
     <Grid>
@@ -77,7 +105,7 @@ const PostWrite = ({ show, onHide, userName }) => {
             <div className="write__top">
               <Avatar className="post__avatar" />
               <div className="write__topInfo">
-                <h3>이민국</h3>
+                <h3>{userInfo.userName}</h3>
                 <p>친구만</p>
               </div>
             </div>
@@ -86,9 +114,22 @@ const PostWrite = ({ show, onHide, userName }) => {
                 <input
                   value={content}
                   onChange={changeContent}
-                  placeholder="이민국님, 무슨 생각을 하고 계신가요?"
+                  placeholder={placeHolder}
                 />
               </form>
+              {showImageUpLoder && (
+                <UpLoaderWrap>
+                  <p>사진/동영상 추가</p>
+                  <input ref={imageRef} onChange={readerUrl} type="file" />
+                  <ImagePreview
+                    src={
+                      imageUrl
+                        ? imageUrl
+                        : 'https://i0.wp.com/www.lumosmarketing.io/wp-content/uploads/2019/04/placeholder-image.jpg?resize=360%2C300&ssl=1'
+                    }
+                  />
+                </UpLoaderWrap>
+              )}
               <div className="imageBox">
                 <img
                   height="38"
@@ -102,7 +143,7 @@ const PostWrite = ({ show, onHide, userName }) => {
                 <h4>게시물에 추가</h4>
               </div>
               <div className="addIcon">
-                <div className="write__option">
+                <div className="write__option" onClick={handleImageUpLoader}>
                   <FilterIcon style={{ color: '#45bd62', fontSize: '24px' }} />
                 </div>
                 <div className="write__option">
@@ -135,5 +176,23 @@ const PostWrite = ({ show, onHide, userName }) => {
     </Grid>
   );
 };
+
+const UpLoaderWrap = styled.div`
+  height: auto;
+  border: 1px solid #ddd;
+  margin: 10px 0px;
+  border-radius: 10px;
+`;
+
+const ImagePreview = styled.div`
+  /* size: px; */
+  width: 80%;
+  height: 250px;
+  object-fit: cover;
+  vertical-align: middle;
+  background-image: url('${(props) => props.src}');
+  background-size: cover;
+  margin: 20px auto;
+`;
 
 export default PostWrite;

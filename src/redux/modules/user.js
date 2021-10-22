@@ -18,7 +18,7 @@ export const logOut = () => ({ type: LOG_OUT });
 
 const initialState = {
   email: '',
-  username: '',
+  userName: '',
   isAuthorized: false,
 };
 
@@ -40,7 +40,7 @@ export const loginToServer = (loginInfo) => async (dispatch) => {
       return data;
     }
     console.log(data);
-    dispatch(login({ email: data.email, nickname: data.userName }));
+    dispatch(login({ email: data.email, userName: data.userName }));
 
     console.log(data?.token);
     saveToken(data?.token);

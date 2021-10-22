@@ -111,10 +111,7 @@ export const deleteContentToAxios = (postId) => async (dispatch) => {
   console.log('포스트삭제아디', postId);
   try {
     const { data } = T.DELETE(`/post/${postId}`);
-    console.log('포스트데이터확인', data);
-    console.log(data);
     if (data.result === '게시글이 삭제되었습니다!') {
-      console.log('성공확인', data.result);
       dispatch(deletePost(postId));
     }
   } catch (error) {
@@ -124,7 +121,6 @@ export const deleteContentToAxios = (postId) => async (dispatch) => {
 export const addCommentToAxios = (comment, postId) => async (dispatch) => {
   try {
     const { data } = await T.POST(`/comment/${postId}`, comment);
-    console.log('데이터', data);
   } catch (error) {
     console.error(error);
   }
@@ -162,34 +158,17 @@ export const loadCurrentPostToAxios = (postId) => async (dispatch) => {
 
 export const updatePostToAxios = (postId, content) => async (dispatch) => {
   try {
-    console.log('미들웨어 패치');
-    console.log(postId, content);
     const { data } = await T.PATCH(`/post/${postId}`, content);
-    console.log(data);
+    dispatch(updatePost(data))
   } catch (error) {
     console.error(error);
   }
 };
 
-// export const addCommentToAxios = (postId, comment) => async (dispatch) => {
-//   let addedComment;
-
-//   try {
-//     const { data } = await axiosinstance.POST(postId, comment);
-//     addedComment = data;
-//     console.log('데이터', data);
-//   } catch (error) {
-//     console.error(error);
-//   }
-//   dispatch(addCommentToPost(addedComment));
-// };
-
 export const modifyCommentToAxios =
   (commentId, comment) => async (dispatch) => {
     try {
       const { data } = await T.PATCH(`/comment/${commentId}`, comment);
-      console.log('수정 데이터', data);
-      console.log('수정 데이터2', data.comment);
       if (data.result === 'success') {
         dispatch(modifyCommentToPost(commentId, data.comment));
       }
@@ -199,7 +178,6 @@ export const modifyCommentToAxios =
   };
 
 export const removeCommentToAxios = (commentId) => async (dispatch) => {
-  console.log('삭제아이디', commentId);
   try {
     const { data } = await T.DELETE(`/comment/${commentId}`);
     if (data.result === 'success') {
@@ -219,23 +197,19 @@ export default function postsReducer(state = initialState, action) {
         break;
       }
       case LOAD_CURRENT_POST: {
-        console.log('로드커런트', action.payload);
         const idx = action.payload.data.posts.findIndex(
           (d) => d.postId === action.payload.postId,
         );
-        console.log('아이디엑스', idx);
         const commentList = action.payload.data.posts[idx].comment;
-        console.log('ㅋㅋ', commentList);
         return draft.postList.push(commentList);
       }
       case CREATE: {
-        console.log('CREATE');
-        console.log(action.payload);
         break;
       }
       case UPDATE: {
-        console.log('UPDATE');
-        console.log(action.payload);
+        let idx = draft.postList.findIndex((p) => p.postId === action.payload.post.postId)
+        draft.postList[idx] = action.payload.post
+
         break;
       }
       case DELETE: {
@@ -266,13 +240,6 @@ export default function postsReducer(state = initialState, action) {
         });
         console.log('리스트', list);
         console.log('리스트2', list2);
-        // const index = list.findIndex(
-        //   (a) => a.commentId === action.payload.commentId,
-        // );
-
-        // console.log('인덱스', index);
-        // console.log('a', list[index]);
-        // draft.current.comment[index] = newComment;
         break;
       }
       case REMOVE_COMMENT: {

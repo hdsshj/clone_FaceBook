@@ -20,5 +20,5 @@ export default {
   UPDATE: (endpoint, urlParam, body) =>
     instance.patch(`/api${endpoint}/${urlParam}`, body),
   DELETE: (endpoint) => instance.delete(`/api${endpoint}`),
-  PATCH: (endpoint, body) => instance.patch(`/api${endpoint}`, body),
+  PATCH: (endpoint, body, header) => instance.patch(`/api${endpoint}`, body, `${header}`),
 };
