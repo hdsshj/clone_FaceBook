@@ -3,7 +3,7 @@ import './Style/PostWrite.css';
 import styled from 'styled-components';
 
 import { Grid } from '../elements/index';
-
+import { useDispatch } from 'react-redux';
 import { addContentToAxios } from '../redux/modules/posts';
 
 import Box from '@mui/material/Box';
@@ -16,7 +16,6 @@ import InsertEmoticonOutlinedIcon from '@mui/icons-material/InsertEmoticonOutlin
 import RoomIcon from '@mui/icons-material/Room';
 import MicIcon from '@mui/icons-material/Mic';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { useDispatch } from 'react-redux';
 
 const boxStyle = {
   position: 'absolute',
@@ -45,7 +44,6 @@ const PostWrite = ({ show, onHide, userName }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log(content);
     
     dispatch(addContentToAxios(content));
   }
