@@ -24,9 +24,9 @@ const MessageSender = () => {
         <Avatar />
         <form>
           <input onClick={handleModal} placeholder="이민국님, 무슨 생각을 하고 계신가요?"/>
-          <PostWrite show={modalShow} onHide={() => setModalShow(false)} />
         </form>
       </div>
+          <PostWrite show={modalShow} onHide={() => setModalShow(false)} />
       <div className="messageSender__bottom">
         <div className="messageSender__option">
           <VideoCameraFrontIcon style={{ color: "#f02849"}}/>

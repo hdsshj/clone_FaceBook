@@ -1,6 +1,6 @@
 import React from 'react';
 import '../Style/Header.css';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
@@ -12,11 +12,25 @@ import { Avatar, IconButton } from '@mui/material';
 import AppsIcon from '@mui/icons-material/Apps';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import AppBar from './AppBar';
 
+import { history } from '../../redux/configStore';
+import { logOut } from '../../redux/modules/user';
+import { removeToken } from '../../utills/auth';
+
+const TOKEN_KEY = process.env.REACT_APP_TOKEN_KEY;
+
 const Header = () => {
+  const dispatch = useDispatch();
+
+  const sign = async () => {
+    await dispatch(logOut());
+    removeToken(TOKEN_KEY);
+    history.replace('/sign');
+  };
+  
   const isUserLogin = useSelector((state) => Boolean(state.user.email));
   return (
     <div className="header">
@@ -64,7 +78,7 @@ const Header = () => {
           <NotificationsIcon />
         </IconButton>
         <IconButton>
-          <ArrowDropDownOutlinedIcon />
+          <LogoutIcon onClick={sign}/>
         </IconButton>
       </div>
     </div>
