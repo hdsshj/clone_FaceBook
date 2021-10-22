@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Style/Post.css';
 import { useDispatch } from 'react-redux';
 import { Avatar } from '@mui/material';
@@ -9,30 +9,35 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import CommentList from './CommentList';
 import MenuBtn from './MenuBtn';
 
-import PostEdit from './PostEdit'
+import PostEdit from './PostEdit';
 
-import { deleteContentToAxios, loadCurrentPostToAxios, likeToAxios } from '../redux/modules/posts';
+import {
+  deleteContentToAxios,
+  loadCurrentPostToAxios,
+  likeToAxios,
+} from '../redux/modules/posts';
 
 const Post = (props) => {
   const dispatch = useDispatch();
   // console.log('포스트프롭스', props.value);
   const postInfo = props.value;
+  const like = postInfo.like;
+  console.log('라이크', like);
   const postId = props.value.postId;
   const [visible, setVisible] = React.useState(false);
   const [modalShow, setModalShow] = React.useState(false);
 
   const deleteContent = (e) => {
-    dispatch(deleteContentToAxios(e))
-  }
+    dispatch(deleteContentToAxios(e));
+  };
 
   const commentVisible = () => {
-    // if (postId === e) {
     setVisible(!visible);
   };
   //좋아요
+
   const [color, setColor] = React.useState(null);
-  const likeColor = (e) => {
-    console.log('이이이이이', e);
+  const likeBtn = (e) => {
     if (color === null) {
       setColor({ color: 'blue' });
       dispatch(likeToAxios({ postId: e, like: true }));
@@ -41,7 +46,14 @@ const Post = (props) => {
       dispatch(likeToAxios({ postId: e, like: false }));
     }
   };
-
+  //새로고침시 좋아요 누른 게시글 파란색 유지
+  React.useEffect(() => {
+    if (like === true) {
+      setColor({ color: 'blue' });
+    } else {
+      setColor(null);
+    }
+  }, []);
 
   const handleModal = () => {
     setModalShow(true);
@@ -61,12 +73,21 @@ const Post = (props) => {
           <h3>{postInfo.userName}</h3>
           <p>{postInfo.insertDt}</p>
         </div>
-        <div className="post__delete" onClick={() => {deleteContent(postId)}} >
-          <HighlightOffIcon/>
+        <div
+          className="post__delete"
+          onClick={() => {
+            deleteContent(postId);
+          }}
+        >
+          <HighlightOffIcon />
         </div>
       </div>
       <button onClick={handleModal}>수정</button>
-      <PostEdit show={modalShow} onHide={() => setModalShow(false)} currentPost={postInfo} />
+      <PostEdit
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        currentPost={postInfo}
+      />
 
       <button>삭제</button>
       <div className="post__bottom">
@@ -78,27 +99,26 @@ const Post = (props) => {
       </div>
 
       <div className="post__options">
-        <div className="post__option" style={color}>
+        <div
+          className="post__option"
+          onClick={() => {
+            console.log('야호');
+            likeBtn(postId);
+          }}
+          style={color}
+        >
           <ThumbUpOutlinedIcon />
-          <p
-            onClick={() => {
-              console.log('야호');
-              likeColor(postId);
-            }}
-          >
-            좋아요
-          </p>
+          <p>좋아요</p>
         </div>
 
-        <div className="post__option">
+        <div
+          className="post__option"
+          onClick={() => {
+            commentVisible(postId);
+          }}
+        >
           <ChatBubbleOutlineOutlinedIcon />
-          <p
-            onClick={() => {
-              commentVisible(postId);
-            }}
-          >
-            댓글 달기
-          </p>
+          <p>댓글 달기</p>
         </div>
 
         <div className="post__option">

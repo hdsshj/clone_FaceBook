@@ -6,6 +6,7 @@ import {
   removeCommentToAxios,
   removeCommentToPost,
 } from '../redux/modules/posts';
+import { style } from '@mui/system';
 const Comment = (props) => {
   console.log('props', props.value);
   const commentInfo = props.value;
@@ -20,7 +21,11 @@ const Comment = (props) => {
   const deletePost = (e) => {
     dispatch(removeCommentToAxios(e));
   };
-
+  //수정,삭제 모달
+  const [modal, setModal] = React.useState(false);
+  const openModal = () => {
+    setModal(!modal);
+  };
   return (
     <React.Fragment>
       <>
@@ -31,34 +36,42 @@ const Comment = (props) => {
               TF={TF}
               TFfunction={editPost}
             />
-
-            <OptionBox>…</OptionBox>
-            <div onClick={editPost}>수정</div>
-            <div
-              onClick={() => {
-                deletePost(commentInfo.commentId);
-              }}
+            <ModifyCancle
+              style={{ cursor: 'pointer', position: 'relative' }}
+              onClick={editPost}
             >
-              삭제
-            </div>
+              취소
+            </ModifyCancle>
           </>
         ) : (
           <Container>
             <UserImg bg={commentInfo.profile} />
             <Cmt>
-              <UserName>{commentInfo.userName}</UserName>
-              {commentInfo.comment}
+              <UserName>
+                <p style={{ fontSize: '12px' }}>{commentInfo.userName}</p>
+              </UserName>
+              <p style={{ fontSize: '15px' }}>{commentInfo.comment}</p>
             </Cmt>
 
-            <OptionBox>…</OptionBox>
-            <div onClick={editPost}>수정</div>
-            <div
-              onClick={() => {
-                deletePost(commentInfo.commentId);
-              }}
-            >
-              삭제
-            </div>
+            <OptionBox onClick={openModal}>···</OptionBox>
+            {modal ? (
+              <>
+                <ModalDiv>
+                  <ModalText style={{ cursor: 'pointer' }} onClick={editPost}>
+                    수정
+                  </ModalText>
+                  <ModalText
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => {
+                      if (window.confirm('삭제하시겠습니까?'))
+                        deletePost(commentInfo.commentId);
+                    }}
+                  >
+                    삭제
+                  </ModalText>
+                </ModalDiv>
+              </>
+            ) : null}
           </Container>
         )}
       </>
@@ -84,40 +97,51 @@ const Cmt = styled.div`
 const UserName = styled.div`
   font-weight: 600;
 `;
-const InputBox = styled.input`
-  width: 530px;
-  margin-left: 20px;
-  border-radius: 20px;
-  padding: 4px 8px;
-`;
-// const EditDelBtn = styled.div`
-//   width: 200px;
-//   padding: 5px;
-//   border-radius: 10px;
-//   opacity: 0;
-// `;
+
 const OptionBox = styled.div`
-  width: 20px;
+  width: 23px;
   height: 20px;
   margin: auto 0;
-  border-radius: 10px;
+  border-radius: 20px;
   cursor: pointer;
   opacity: 0;
+  text-align: center;
+  padding-bottom: 3px;
 
   &:hover {
     opacity: 100;
     background-color: #eee;
   }
-  /* &:active  {
-    opacity: 100;
-  } */
 `;
-
+const ModalDiv = styled.div`
+  padding: 5px 2px;
+  width: 200px;
+  background-color: white;
+  position: relative;
+  border-radius: 5px;
+  top: 45px;
+  left: -110px;
+  box-shadow: 0px 0px 5px rgb(0 0 0 / 50%);
+`;
+const ModalText = styled.p`
+  padding: 5px;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 5px;
+  }
+`;
+const ModifyCancle = styled.p`
+  cursor: pointer;
+  position: relative;
+  left: 60px;
+  top: -15px;
+  font-size: 14px;
+`;
 const Container = styled.div`
   width: 680px;
   display: flex;
-  padding: 4px 0 0 16px;
   margin-bottom: 10px;
+  border-radius: 15px;
   &:hover ${OptionBox} {
     opacity: 100;
   }
