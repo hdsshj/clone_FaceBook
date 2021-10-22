@@ -7,19 +7,31 @@ import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutline
 import ScreenShareOutlinedIcon from '@mui/icons-material/ScreenShareOutlined';
 import CommentList from './CommentList';
 
-import { loadCurrentPostToAxios } from '../redux/modules/posts';
+import { likeToAxios } from '../redux/modules/posts';
 
 const Post = (props) => {
   // console.log('포스트프롭스', props.value);
+  const dispatch = useDispatch();
   const postInfo = props.value;
   const postId = props.value.postId;
   const [visible, setVisible] = React.useState(false);
   const commentVisible = () => {
     // if (postId === e) {
     setVisible(!visible);
-    // }
-    return;
   };
+  //좋아요
+  const [color, setColor] = React.useState(null);
+  const likeColor = (e) => {
+    console.log('이이이이이', e);
+    if (color === null) {
+      setColor({ color: 'blue' });
+      dispatch(likeToAxios({ postId: e, like: true }));
+    } else {
+      setColor(null);
+      dispatch(likeToAxios({ postId: e, like: false }));
+    }
+  };
+
   //포스트 아이디를 보내서 댓글 정보 로드
   // const commentLoad = (e) => {
   //   dispatch(loadCurrentPostToAxios(e));
@@ -42,9 +54,16 @@ const Post = (props) => {
       </div>
 
       <div className="post__options">
-        <div className="post__option">
+        <div className="post__option" style={color}>
           <ThumbUpOutlinedIcon />
-          <p>좋아요</p>
+          <p
+            onClick={() => {
+              console.log('야호');
+              likeColor(postId);
+            }}
+          >
+            좋아요
+          </p>
         </div>
 
         <div className="post__option">

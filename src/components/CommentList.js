@@ -40,7 +40,6 @@ const Container = styled.div`
   width: 750px;
   background-color: #eee;
   margin: 0 auto;
-  height: 100vh;
 `;
 const ChildContainer = styled.div`
   width: 650px;

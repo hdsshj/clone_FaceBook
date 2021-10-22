@@ -7,7 +7,7 @@ const LOAD_CURRENT_POST = 'posts/LOAD_CURRENT_POST';
 const CREATE = 'posts/CREATE';
 const UPDATE = 'posts/UPDATE';
 const DELETE = 'posts/DELETE';
-
+const LIKE_POST = 'posts/LIKE';
 //comment
 const ADD_COMMENT = 'posts/ADD_COMMENT';
 const MODIFY_COMMENT = 'posts/MODIFY_COMMENT';
@@ -23,6 +23,11 @@ const loadPosts = (postList) => ({
 const loadCurrentPost = (postId, data) => ({
   type: LOAD_CURRENT_POST,
   payload: { postId, data },
+});
+
+const likeToPost = (Like) => ({
+  type: LIKE_POST,
+  payload: Like,
 });
 
 const createPost = (newPost) => ({
@@ -109,6 +114,17 @@ export const addCommentToAxios = (comment, postId) => async (dispatch) => {
   dispatch(addCommentToPost(comment, postId));
 };
 
+export const likeToAxios = (Like) => async (dispatch) => {
+  console.log('ㅁㄴㅇ', Like);
+  try {
+    const { data } = await T.POST(`/like`, Like);
+    console.log('데이ㅓㅌ', data);
+    dispatch(likeToPost(Like));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 // 게시글 리스트 로드
 export const loadPostsToAxios = () => async (dispatch) => {
   try {
@@ -129,19 +145,6 @@ export const loadCurrentPostToAxios = (postId) => async (dispatch) => {
     console.error(error);
   }
 };
-
-// export const addCommentToAxios = (postId, comment) => async (dispatch) => {
-//   let addedComment;
-
-//   try {
-//     const { data } = await axiosinstance.POST(postId, comment);
-//     addedComment = data;
-//     console.log('데이터', data);
-//   } catch (error) {
-//     console.error(error);
-//   }
-//   dispatch(addCommentToPost(addedComment));
-// };
 
 export const modifyCommentToAxios =
   (commentId, comment) => async (dispatch) => {
@@ -202,6 +205,11 @@ export default function postsReducer(state = initialState, action) {
       case DELETE: {
         console.log('DELETE');
         console.log(action.payload);
+        break;
+      }
+      case LIKE_POST: {
+        console.log('좋아요', action.payload);
+
         break;
       }
       case ADD_COMMENT: {
