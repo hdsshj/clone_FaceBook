@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import './Style/Post.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Avatar } from '@mui/material';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
@@ -17,14 +17,22 @@ import {
 
 const Post = (props) => {
   const dispatch = useDispatch();
+  const currentPost = useSelector
   const postInfo = props.value;
-  const like = postInfo.like;
+  // const like = postInfo.like;
   const postId = props.value.postId;
   const [visible, setVisible] = React.useState(false);
   const [modalShow, setModalShow] = React.useState(false);
 
   const commentVisible = () => {
     setVisible(!visible);
+
+    if (!visible) {
+      dispatch(loadCurrentPostToAxios(postId))
+    } else {
+      setVisible(!visible);
+    }
+
   };
   //좋아요
 
@@ -39,13 +47,13 @@ const Post = (props) => {
     }
   };
   //새로고침시 좋아요 누른 게시글 파란색 유지
-  React.useEffect(() => {
-    if (like === true) {
-      setColor({ color: 'blue' });
-    } else {
-      setColor(null);
-    }
-  }, []);
+  // React.useEffect(() => {
+  //   if (like === true) {
+  //     setColor({ color: 'blue' });
+  //   } else {
+  //     setColor(null);
+  //   }
+  // }, []);
 
   //포스트 아이디를 보내서 댓글 정보 로드
   // const commentLoad = (e) => {
@@ -86,7 +94,7 @@ const Post = (props) => {
         <div
           className="post__option"
           onClick={() => {
-            commentVisible(postId);
+            commentVisible();
           }}
         >
           <ChatBubbleOutlineOutlinedIcon />
@@ -99,7 +107,7 @@ const Post = (props) => {
         </div>
       </div>
       {(postId ? visible : false) ? (
-        <CommentList value={postInfo}></CommentList>
+        <CommentList postId={postInfo.postId}></CommentList>
       ) : null}
     </div>
   );

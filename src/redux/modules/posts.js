@@ -23,7 +23,7 @@ const loadPosts = (postList) => ({
 
 const loadCurrentPost = (postId, data) => ({
   type: LOAD_CURRENT_POST,
-  payload: { postId, data },
+  payload: { postId, data }
 });
 
 const likeToPost = (Like) => ({
@@ -99,12 +99,13 @@ const baseURL = process.env.REACT_APP_REMOTE_SERVER_URI;
 export const addContentToAxios = (content) => async (dispatch) => {
   console.log('콘텐트추가', content);
   try {
-    const { data } = await T.POST('/post', { content });
+    const { data } = await T.POST('/post', content);
     console.log('콘텐트데이터', data);
+  dispatch(createPost(data));
+
   } catch (error) {
     console.error(error);
   }
-  dispatch(createPost(content));
 };
 
 export const deleteContentToAxios = (postId) => async (dispatch) => {
@@ -139,7 +140,7 @@ export const likeToAxios = (Like) => async (dispatch) => {
 // 게시글 리스트 로드
 export const loadPostsToAxios = () => async (dispatch) => {
   try {
-    const res = await T.GET('/post');
+    const res = await T.GET('/api/post');
 
     dispatch(loadPosts(res.data));
   } catch (error) {
@@ -149,8 +150,9 @@ export const loadPostsToAxios = () => async (dispatch) => {
 
 export const loadCurrentPostToAxios = (postId) => async (dispatch) => {
   try {
-    const { data } = await T.GET();
-    dispatch(loadCurrentPost(Number(postId), data));
+    const { data } = await T.GET('/api/post', postId);
+    console.log(data)
+    dispatch(loadCurrentPost(postId, data));
   } catch (error) {
     console.error(error);
   }
@@ -197,13 +199,18 @@ export default function postsReducer(state = initialState, action) {
         break;
       }
       case LOAD_CURRENT_POST: {
-        const idx = action.payload.data.posts.findIndex(
-          (d) => d.postId === action.payload.postId,
-        );
-        const commentList = action.payload.data.posts[idx].comment;
-        return draft.postList.push(commentList);
+        console.log(action.payload)
+        draft.current = action.payload.data
+        console.log(state.current)
+        // const idx = action.payload.data.posts.findIndex(
+        //   (d) => d.postId === action.payload.postId,
+        // );
+        // const commentList = action.payload.data.posts[idx].comment;
+        // return draft.postList.push(commentList);
       }
       case CREATE: {
+        draft.postList.unshift(action.payload.post)
+
         break;
       }
       case UPDATE: {

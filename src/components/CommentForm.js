@@ -9,19 +9,17 @@ import {
 } from '../redux/modules/posts';
 
 const CommentForm = (props) => {
-  const commentId = props.value;
-  const postId = props.value.postId;
   const dispatch = useDispatch();
   const [comment, setComment] = React.useState();
   //제출은 엔터키
   const enterKey = (e) => {
     if (e.key === 'Enter') {
       if (props.TF) {
-        dispatch(modifyCommentToAxios(commentId, { comment: comment }));
+        // dispatch(modifyCommentToAxios(commentId, { comment: comment }));
         setComment('');
         props.TFfunction(!props.TF);
       } else {
-        dispatch(addCommentToAxios({ comment: comment }, postId));
+        // dispatch(addCommentToAxios({ comment: comment }, postId));
         setComment('');
       }
     }

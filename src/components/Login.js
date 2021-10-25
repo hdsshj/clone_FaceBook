@@ -51,7 +51,7 @@ const Login = () => {
           sx={{ margin: '10px 0px' }}
           type="text"
           fullWidth={true}
-          placeholder="이메일 또는 전화번호"
+          placeholder="이메일을 입력하세요."
           variant="outlined"
           value={email}
           onChange={handleChangeEmail}
@@ -60,7 +60,7 @@ const Login = () => {
           sx={{ margin: '10px 0px 0px' }}
           type="password"
           fullWidth={true}
-          placeholder="이름(성은 제외)"
+          placeholder="비밀번호를 입력하세요."
           variant="outlined"
           value={password}
           onChange={handleChangePassword}

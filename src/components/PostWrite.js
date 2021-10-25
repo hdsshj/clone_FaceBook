@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Grid } from '../elements/index';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContentToAxios } from '../redux/modules/posts';
+import { history } from '../redux/configStore';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -44,10 +45,12 @@ const PostWrite = ({ show, onHide }) => {
   const imageRef = React.useRef('');
 
   const dispatch = useDispatch();
+
   const readerUrl = () => {
     if (!imageRef.current.files[0]) {
       return;
     }
+    console.log(imageRef.current.files[0])
     const reader = new FileReader();
     const file = imageRef.current.files[0];
 
@@ -57,16 +60,18 @@ const PostWrite = ({ show, onHide }) => {
     };
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const addPost =  () => {
+
     const image = imageRef.current.files[0];
 
     const formData = new FormData();
     formData.append('content', content);
-    formData.append('image', image);
+    imageRef.current.files[0] && formData.append('image', image);
+
+    console.log(formData.entries())
 
     dispatch(addContentToAxios(formData));
+
   };
 
   const changeContent = (e) => {
@@ -79,7 +84,6 @@ const PostWrite = ({ show, onHide }) => {
     setShowImageUpLoder(!showImageUpLoder);
   };
 
-  const placeHolder = `${userInfo.userName}님, 무슨 생각을 하고 계신가요?`;
 
   return (
     <Grid>
@@ -110,11 +114,11 @@ const PostWrite = ({ show, onHide }) => {
               </div>
             </div>
             <div className="write__middle">
-              <form onSubmit={handleSubmit}>
+              <form>
                 <input
                   value={content}
                   onChange={changeContent}
-                  placeholder={placeHolder}
+                  placeholder={`${userInfo.userName}님, 무슨 생각을 하고 계신가요?`}
                 />
               </form>
               {showImageUpLoder && (
@@ -168,7 +172,7 @@ const PostWrite = ({ show, onHide }) => {
               </div>
             </div>
             <div className="write__button">
-              <button type="submit">게시</button>
+              <button onClick={addPost}>게시</button>
             </div>
           </Grid>
         </Box>

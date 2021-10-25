@@ -38,8 +38,8 @@ const PostList = () => {
       <StoryReal />
       <MessageSender />
       {postList &&
-        postList.map((p, i) => {
-          return <Post value={p} key={i} />;
+        postList.map((p) => {
+          return <Post value={p} key={p.postId} />;
         })}
     </div>
   );

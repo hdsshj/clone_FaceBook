@@ -1,70 +1,37 @@
-# Getting Started with Create React App
+# 5조 Clone FaceBook
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Team
 
-## Available Scripts
+- Frontend : 한우석, 이지훈, 이민국 (REACT)
+- Backend : 전은규, 김도형, 안성규 (NODE.JS))
+  <br><br>
 
-In the project directory, you can run:
+## Description
 
-### `yarn start`
+- 그 동안 배운 내용을 바탕으로 Facebook Clone Coding을 진행 하였습니다.<br>
+- [데모 영상(유튜브)](https://www.youtube.com/watch?v=M7iybW5pcKU)
+  <br><br>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Objective
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+1. Frontend와 Backend 다른환경에서의 연동(CORS)
+2. 회원가입 & Node.js에서 JWT 방식의 로그인
+3. 게시글 목록 구현 (CRUD 적용, Image 업로드 가능)
+4. 댓글 작성 (CRUD 적용)
+5. 메인 페이지 View 기능 유뮤와 상관 없이 구현
+6. 무한 스크롤 구현
 
-### `yarn test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- [API 설계](https://generated-drive-f4f.notion.site/API-3411050860cc46d0b583fffd95fff7c1)
 
-### `yarn build`
+<details markdown = "1">
+<summary>
+API 설계
+</summary>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 로그인/회원가입
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+좋아요 기능 구현 중 api 설계에 맞게 값을 보내고 콘솔을 확인한 결과 좋아요의 수는 올라가는데 유저가 해당 글에 좋아요를 눌렀는지 누르지 않았는지를 체크할 값이 없었다.
+그래서 페이지를 리로드하면 좋아요를 눌렀던 글의 좋아요 수는 올라가지만 화면상에는 체크하지 않은 상태로 나와있었다.
+백엔드분께 좋아요를 체크할 값을 boolean 값으로 내려달라고 요청하였고 이를 가지고 웹페이지를 리로드해도 좋아요를 눌렀던 게시글이 초기화되지 않고 유지되는 것을 구현하였다.

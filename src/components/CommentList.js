@@ -2,25 +2,31 @@ import React, { useEffect } from 'react';
 import CommentForm from './CommentForm';
 import Comment from './Comment';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { loadCurrentPostToAxios, loadPostsToAxios } from '../redux/modules/posts';
 
-const CommentList = (props) => {
-  const comment_data = props.value.comment;
+const CommentList = ({postId}) => {
+  console.log(postId)
+  const dispatch = useDispatch()
+
+  React.useEffect(() => {
+  },[])
+  
 
   return (
     <React.Fragment>
       <Line />
       <Container>
         <ChildContainer>
-          <CommentForm value={props.value} />
-          {comment_data &&
+          <CommentForm  />
+          {/* {comment_data &&
             comment_data.map((a) => {
               return (
                 <div>
                   <Comment id={a.commentId} value={a} />
                 </div>
               );
-            })}
+            })} */}
         </ChildContainer>
       </Container>
     </React.Fragment>

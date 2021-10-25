@@ -291,30 +291,8 @@ const Signup = ({ show, onHide }) => {
                 />
                 &nbsp;
               </label>
-              <label htmlFor="gender">
-                직접선택
-                <input
-                  id="직접선택"
-                  name="직접선택"
-                  value="직접선택"
-                  type="radio"
-                  checked={gender === '직접선택'}
-                  onChange={handleGenderSelect}
-                />
-                &nbsp;
-              </label>
             </RadioBox>
           </FormControl>
-          <SelectBox option={selectBoxOption} />
-          <p>선택한 항목이 모든 사람에게 공개됩니다.</p>
-          <TextField
-            sx={{ margin: '10px 0px 5px 0px' }}
-            size="small"
-            fullWidth={true}
-            id="outlined-basic"
-            placeholder="성별(선택 사항)"
-            variant="outlined"
-          />
           <Grid>
             <p style={{ fontSize: '11px', color: 'gray' }}>
               가입하기 버튼을 클릭하면 Facebook의 약관, 데이터 정책 및 쿠키
